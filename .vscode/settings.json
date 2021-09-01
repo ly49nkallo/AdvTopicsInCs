@@ -4,9 +4,9 @@
         "c:\\Program Files\\processing-3.5.4\\core\\library\\core.jar"
     ],
     "java.project.sourcePaths": [
-        "test\\src",
-        "Welcome\\src",
-        "WelcomeProcessing\\src",
-        "WelcomeProcessing4\\src"
-    ]
+        "test/src",
+        "WelcomeProcessing/src",
+        "Welcome/src",
+        "WelcomeProcessing4/src"
+    ],
 }
