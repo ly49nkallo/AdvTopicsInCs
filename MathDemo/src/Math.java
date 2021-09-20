@@ -1,9 +1,10 @@
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import static processing.core.PApplet.*;
 public class Math extends PApplet{
     public static void main(String[] args) {
-        PApplet.main("Math");
+        PApplet.main(Math.class);
         //System.out.println(10-pythagorean(6,3));
     }
 
@@ -13,17 +14,14 @@ public class Math extends PApplet{
     }
     @Override
     public void setup() {
-        PVector ptT = new PVector(2,1);
-        PVector ptA = new PVector(8,4);
-
-        PVector d = PVector.sub(ptT, ptA);
-        println(d.mag());
+        a = new PVector(10,-2);
+        b = new PVector(10,2);
+        a.normalize(); b.normalize();
+        float c = a.dot(b); 
     }
     @Override
     public void draw() {
-
+        background(255);
     }
-    static float pythagorean(int a, int b) {
-        return sqrt((a^2) + (b^2));
-    }
+    PVector a, b;
 }
