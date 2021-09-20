@@ -1,7 +1,7 @@
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import static processing.core.PApplet.*;
+//import static processing.core.PApplet.*;
 public class Math extends PApplet{
     public static void main(String[] args) {
         PApplet.main(Math.class);
@@ -17,7 +17,9 @@ public class Math extends PApplet{
         a = new PVector(10,-2);
         b = new PVector(10,2);
         a.normalize(); b.normalize();
-        float c = a.dot(b); 
+        float c = a.dot(b);
+        println(c);
+
     }
     @Override
     public void draw() {
