@@ -8,8 +8,8 @@
         "WelcomeProcessing/src",
         "Welcome/src",
         "WelcomeProcessing4/src",
-        "ehh/src",
         "MathDemo/src",
         "Game/src",
+        "fsmDemo/src",
     ],
 }
