@@ -1,4 +1,4 @@
-
+import processing.core.PVector;
 
 public abstract class RegionState {
 	protected String name;
@@ -27,8 +27,6 @@ public abstract class RegionState {
 	}
 }
 
-
-
 /*
  * In the global state we always check to see if the state needs to be changed based on where the mouse is
  */
@@ -48,33 +46,7 @@ class GlobalRegionState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		int mX = r.mouseX;
-		int mY = r.mouseY;
-		MouseArea currentArea = r.hoverMouseArea;
-		
-		// we shouldn't need to do anything because we are 
-		// in the same area
-		if(currentArea.contains(mX, mY)) {
-			return;
-		} else {			
-			for(MouseArea ma : r.mArea) {
-				if(ma.contains(mX, mY)) {
-					r.hoverMouseArea = ma;
-					
-					if(ma.id() == DemoApp.UPPERLEFT) {
-						r.sm.changeState(UpperLeftAnimateState.getInstance());
-					} else if(ma.id() == DemoApp.UPPERRIGHT) {
-						r.sm.changeState(UpperRightAnimateState.getInstance());
-					} else if(ma.id() == DemoApp.LOWERLEFT) {
-						r.sm.changeState(LowerLeftAnimateState.getInstance());
-					} else if(ma.id() == DemoApp.LOWERRIGHT) {
-						r.sm.changeState(LowerRightAnimateState.getInstance());
-					}
-					
-					break;
-				}
-			}
-		}
+		// code to detect which state the machine should be in
 	}
 	
 	// Override enter and exit so we don't print the default messages
@@ -102,19 +74,11 @@ class UpperLeftAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		for(MouseArea ma : r.mArea) {
-			if(ma.id() != DemoApp.UPPERLEFT) {
-				ma.draw();
-			} else {
-				ma.update();
-				ma.draw();
-			}
-		}
+		
 	}
 	
 	public void exit(DemoApp r) {
 		super.exit(r);
-		r.mArea[DemoApp.UPPERLEFT].resetColor();
 	}
 }
 
@@ -136,19 +100,11 @@ class UpperRightAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		for(MouseArea ma : r.mArea) {
-			if(ma.id() != DemoApp.UPPERRIGHT) {
-				ma.draw();
-			} else {
-				ma.update();
-				ma.draw();
-			}
-		}		
+		
 	}
 
 	public void exit(DemoApp r) {
 		super.exit(r);
-		r.mArea[DemoApp.UPPERRIGHT].resetColor();
 	}
 }
 
@@ -170,19 +126,11 @@ class LowerLeftAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		for(MouseArea ma : r.mArea) {
-			if(ma.id() != DemoApp.LOWERLEFT) {
-				ma.draw();
-			} else {
-				ma.update();
-				ma.draw();
-			}
-		}		
+		
 	}
 
 	public void exit(DemoApp r) {
 		super.exit(r);
-		r.mArea[DemoApp.LOWERLEFT].resetColor();
 	}	
 }
 
@@ -204,18 +152,10 @@ class LowerRightAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		for(MouseArea ma : r.mArea) {
-			if(ma.id() != DemoApp.LOWERRIGHT) {
-				ma.draw();
-			} else {
-				ma.update();
-				ma.draw();
-			}
-		}		
+		
 	}
 	
 	public void exit(DemoApp r) {
 		super.exit(r);
-		r.mArea[DemoApp.LOWERRIGHT].resetColor();
 	}	
 }

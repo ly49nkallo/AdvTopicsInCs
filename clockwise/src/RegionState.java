@@ -1,4 +1,4 @@
-
+import processing.core.PVector;
 
 public abstract class RegionState {
 	protected String name;
@@ -26,8 +26,6 @@ public abstract class RegionState {
 		return name();
 	}
 }
-
-
 
 /*
  * In the global state we always check to see if the state needs to be changed based on where the mouse is
@@ -110,6 +108,12 @@ class UpperLeftAnimateState extends RegionState {
 				ma.draw();
 			}
 		}
+		if (r.currentRotation == r.CLOCKWISE) {
+			r.p.applyForce(new PVector(r.p.speed, 0));
+			r.p.update();
+			r.p.draw();
+		}
+		
 	}
 	
 	public void exit(DemoApp r) {
@@ -136,6 +140,7 @@ class UpperRightAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
+		
 		for(MouseArea ma : r.mArea) {
 			if(ma.id() != DemoApp.UPPERRIGHT) {
 				ma.draw();
@@ -144,6 +149,12 @@ class UpperRightAnimateState extends RegionState {
 				ma.draw();
 			}
 		}		
+		if (r.currentRotation == r.CLOCKWISE) {
+			r.p.applyForce(new PVector(0, r.p.speed));
+			r.p.update();
+			r.p.draw();
+		}
+		
 	}
 
 	public void exit(DemoApp r) {
@@ -177,7 +188,12 @@ class LowerLeftAnimateState extends RegionState {
 				ma.update();
 				ma.draw();
 			}
-		}		
+		}	
+		if (r.currentRotation == r.CLOCKWISE) {
+			r.p.applyForce(new PVector(0, -r.p.speed));
+			r.p.update();
+			r.p.draw();
+		}
 	}
 
 	public void exit(DemoApp r) {
@@ -212,6 +228,11 @@ class LowerRightAnimateState extends RegionState {
 				ma.draw();
 			}
 		}		
+		if (r.currentRotation == r.CLOCKWISE) {
+			r.p.applyForce(new PVector(-r.p.speed, 0));
+			r.p.update();
+			r.p.draw();
+		}
 	}
 	
 	public void exit(DemoApp r) {

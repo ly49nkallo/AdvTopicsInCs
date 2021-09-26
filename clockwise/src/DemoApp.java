@@ -10,12 +10,20 @@ public class DemoApp extends PApplet {
 	public static final Integer LOWERLEFT = 2;
 	public static final Integer LOWERRIGHT = 3;
 	
+	public static final Integer CLOCKWISE = 0;
+	public static final Integer COUNTERCLOCKWISE = 1;
+
+	// have the demoapp handle the extremely simple state machine
+	public Integer currentRotation = CLOCKWISE;
+
 	public static PApplet ctx;
 	
 	// Attributes
 	MouseArea[] mArea;
 	RegionStateMachine sm;
 	MouseArea hoverMouseArea;
+
+	public static particle p;
 	
 	public static void main(String[] args) {
 		PApplet.main(DemoApp.class);	
@@ -35,8 +43,8 @@ public class DemoApp extends PApplet {
 		
 		//initial mouseArea is the upper left
 		hoverMouseArea = mArea[0];
+		p = new particle();
 		
-
 		// create State Machine
 		sm = new RegionStateMachine(this);
 		sm.setGlobalState(GlobalRegionState.getInstance());
@@ -53,6 +61,12 @@ public class DemoApp extends PApplet {
 	public void mouseClicked() {
 		PVector f = new PVector(10,3);
 //		vehicle.applyForce(f);
+	}
+
+	@Override
+	public void keyPressed() {
+		if (currentRotation == CLOCKWISE) currentRotation = COUNTERCLOCKWISE;
+		else currentRotation = CLOCKWISE;
 	}
 	
 	Region currentState() {
