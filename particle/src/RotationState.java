@@ -1,5 +1,6 @@
 import processing.core.PVector;
 
+
 public abstract class RotationState {
 	protected String name;
 	
@@ -27,6 +28,9 @@ public abstract class RotationState {
 class GlobalRotationState extends RotationState {
     private static String myname = "GlobalRotationState";
     private static GlobalRotationState instance = null;
+    
+    private Long previousInput = 0L;
+    private final Double delay = 200d;
 
     private GlobalRotationState() {
         super(myname);
@@ -42,6 +46,17 @@ class GlobalRotationState extends RotationState {
     @Override
     public void execute(DemoApp r) {
         //detect user input to change directions
+        
+        if (r.keyPressed == true && System.currentTimeMillis() > (previousInput + delay)) {
+            previousInput = System.currentTimeMillis();
+            System.out.println("Key Pressed");
+            if (r.sm.isInRotationState(ClockwiseRotationState.getInstance())) {
+                r.sm.setCurrentRotationState(CClockwiseRotationState.getInstance());
+            }
+            else if (r.sm.isInRotationState(CClockwiseRotationState.getInstance())) {
+                r.sm.setCurrentRotationState(ClockwiseRotationState.getInstance());
+            } 
+        }
     }
 
     @Override
@@ -72,7 +87,7 @@ class ClockwiseRotationState extends RotationState {
 
     @Override
     public void exit(DemoApp r) {
-
+        r.particle.vel = new PVector();
     }
 }
 
@@ -94,11 +109,11 @@ class CClockwiseRotationState extends RotationState {
 
     @Override
     public void execute(DemoApp r) {
-
+        r.particle.changeHeading();
     }
 
     @Override
     public void exit(DemoApp r) {
-
+        r.particle.vel = new PVector();
     }
 }

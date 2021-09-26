@@ -4,6 +4,9 @@ public class RegionStateMachine {
 	protected RegionState currentState = null;
 	protected RegionState previousState = null;
 	protected RegionState globalState = null;
+	protected RotationState currentRotationState = null;
+	protected RotationState globalRotationState = null;
+
 	
 	public RegionStateMachine (DemoApp owner) {
 		this.app = owner;
@@ -14,13 +17,25 @@ public class RegionStateMachine {
 		System.out.println("setting current state to " + state);
 		currentState = state;
 	}
+	public void setCurrentRotationState(RotationState state) {
+		System.out.println("setting current rotation state to " + state);
+		currentRotationState = state;
+	}
 	
 	public void setPreviousState(RegionState state) {
 		previousState = state;
 	}
+	public void setPreviousState(RotationState state) {
+		//not implemented
+		return;
+	}
 	
 	public void setGlobalState(RegionState state) {
 		globalState = state;
+	}
+
+	public void setGlobalRotationState(RotationState state) {
+		globalRotationState = state;
 	}
 
 	// update the State Machine
@@ -34,8 +49,14 @@ public class RegionStateMachine {
 		if(currentState != null) {
 			currentState.execute(app);
 		}
-		
-		
+
+		if(globalRotationState != null) {
+			globalRotationState.execute(app);
+		}
+
+		if(currentRotationState != null) {
+			currentRotationState.execute(app);
+		}
 	}
 	
 	
@@ -55,16 +76,30 @@ public class RegionStateMachine {
 		currentState.enter(app);
 	}
 	
+	public void changeRotation(RotationState newState) {
+		assert newState != null : "<StateMachine::changeState> trying to assign null state to rotation current";
+
+		currentRotationState.exit(app);
+
+		currentRotationState = newState;
+
+		currentRotationState.enter(app);
+
+	}
 	public void revertToPreviousState() {
 		changeState(previousState);
 	}
-	
+		
 	// note this does straight object comparison. So even though the 2 states might be of the 
 	// class they will not be equal unless they are the same object. 
 	// TODO: make this more fool proof
 
 	public boolean isInState(RegionState state) {
 		return currentState.getClass().getName().equals(state.getClass().getName());
+	}
+
+	public boolean isInRotationState (RotationState state) {
+		return currentRotationState.getClass().getName().equals(state.getClass().getName());
 	}
 
 }

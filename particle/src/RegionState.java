@@ -47,6 +47,32 @@ class GlobalRegionState extends RegionState {
 	@Override
 	public void execute(DemoApp r) {
 		// code to detect which state the machine should be in
+		float x = r.particle.pos.x;
+		float y = r.particle.pos.y;
+		if (r.currentRegion.inside(x,y)) {
+			return;
+		} else {
+			for (Region region : r.regions) {
+				if (region.inside(x,y)) {
+					r.currentRegion = region;
+					if(region.id == DemoApp.UPPERRIGHT){
+						r.sm.changeState(UpperRightAnimateState.getInstance());
+					}
+					if(region.id == DemoApp.UPPERLEFT){
+						r.sm.changeState(UpperLeftAnimateState.getInstance());
+					}
+					if(region.id == DemoApp.LOWERLEFT){
+						r.sm.changeState(LowerLeftAnimateState.getInstance());
+					}
+					if(region.id == DemoApp.LOWERRIGHT){
+						r.sm.changeState(LowerRightAnimateState.getInstance());
+					}
+
+					break;
+				}
+			}
+		}
+		
 	}
 	
 	// Override enter and exit so we don't print the default messages
@@ -74,7 +100,7 @@ class UpperLeftAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		
+		r.particle.applyForce(new PVector(1,0));
 	}
 	
 	public void exit(DemoApp r) {
@@ -100,7 +126,7 @@ class UpperRightAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		
+		r.particle.applyForce(new PVector(0,1));
 	}
 
 	public void exit(DemoApp r) {
@@ -126,7 +152,7 @@ class LowerLeftAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		
+		r.particle.applyForce(new PVector(0,-1));
 	}
 
 	public void exit(DemoApp r) {
@@ -152,7 +178,7 @@ class LowerRightAnimateState extends RegionState {
 	
 	@Override
 	public void execute(DemoApp r) {
-		
+		r.particle.applyForce(new PVector(-1,0));
 	}
 	
 	public void exit(DemoApp r) {

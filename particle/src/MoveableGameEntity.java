@@ -45,7 +45,11 @@ public class MoveableGameEntity {
 			acc = f.copy();
 			acc.mult((float)(1.0/mass));
 		}
-		
 	}
-	
+	public void changeHeading() {
+		// Euclidian Vector rotation (x,y) --> (-y,x)
+		PVector newAcc = new PVector(-acc.y, acc.x);
+		acc = newAcc;
+	}
+
 }
