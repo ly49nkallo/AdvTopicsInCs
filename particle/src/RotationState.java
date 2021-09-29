@@ -4,17 +4,17 @@ import processing.core.PVector;
 public abstract class RotationState {
 	protected String name;
 	
-	abstract public void execute(DemoApp r);
+	abstract public void execute(Particle r);
 	
 	protected RotationState(String name) {
 		this.name = name;
 	}
 	//
-	public void enter(DemoApp r) { 
+	public void enter(Particle r) { 
 		System.out.printf("rotation entering state %s\n",name,r);
 	}
 	//
-	public void exit(DemoApp r) { 
+	public void exit(Particle r) { 
 		System.out.printf("rotation exiting state %s\n",name,r);
 	}	
 	//	
@@ -44,10 +44,10 @@ class GlobalRotationState extends RotationState {
     }
 
     @Override
-    public void execute(DemoApp r) {
+    public void execute(Particle r) {
         //detect user input to change directions
         
-        if (r.keyPressed == true && System.currentTimeMillis() > (previousInput + delay)) {
+        if (r.app.keyPressed == true && System.currentTimeMillis() > (previousInput + delay)) {
             previousInput = System.currentTimeMillis();
             System.out.println("Key Pressed");
             if (r.sm.isInRotationState(ClockwiseRotationState.getInstance())) {
@@ -60,9 +60,9 @@ class GlobalRotationState extends RotationState {
     }
 
     @Override
-	public void enter(DemoApp r) {}
+	public void enter(Particle r) {}
 	@Override
-	public void exit(DemoApp r) {}	
+	public void exit(Particle r) {}	
 }
 
 class ClockwiseRotationState extends RotationState {
@@ -81,13 +81,13 @@ class ClockwiseRotationState extends RotationState {
     }
 
     @Override
-    public void execute(DemoApp r) {
+    public void execute(Particle r) {
         
     }
 
     @Override
-    public void exit(DemoApp r) {
-        r.particle.vel = new PVector();
+    public void exit(Particle r) {
+        r.vel = new PVector();
     }
 }
 
@@ -108,12 +108,12 @@ class CClockwiseRotationState extends RotationState {
     }
 
     @Override
-    public void execute(DemoApp r) {
-        r.particle.changeHeading();
+    public void execute(Particle r) {
+        r.changeHeading();
     }
 
     @Override
-    public void exit(DemoApp r) {
-        r.particle.vel = new PVector();
+    public void exit(Particle r) {
+        r.vel = new PVector();
     }
 }

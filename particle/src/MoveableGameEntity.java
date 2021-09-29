@@ -6,7 +6,7 @@ public class MoveableGameEntity {
 	private int size = 15;
 	private double mass = 5;
 	
-	PVector pos = new PVector(100,100);
+	PVector pos = new PVector();
 	PVector vel = new PVector();
 	PVector acc = new PVector();
 	PVector heading = new PVector();

@@ -1,6 +1,6 @@
 
 public class RegionStateMachine {
-	protected DemoApp app = null;
+	protected Particle p = null;
 	protected RegionState currentState = null;
 	protected RegionState previousState = null;
 	protected RegionState globalState = null;
@@ -8,8 +8,8 @@ public class RegionStateMachine {
 	protected RotationState globalRotationState = null;
 
 	
-	public RegionStateMachine (DemoApp owner) {
-		this.app = owner;
+	public RegionStateMachine (Particle owner) {
+		this.p = owner;
 	}
 	
 	// the next 3 methods are used to initialize the State Machine
@@ -42,20 +42,20 @@ public class RegionStateMachine {
 	public void update() {
 		// only run this if we have a global state
 		if(globalState != null) {
-			globalState.execute( app );
+			globalState.execute( p );
 		}
 		
 		// only run if we have a current state
 		if(currentState != null) {
-			currentState.execute(app);
+			currentState.execute(p);
 		}
 
 		if(globalRotationState != null) {
-			globalRotationState.execute(app);
+			globalRotationState.execute(p);
 		}
 
 		if(currentRotationState != null) {
-			currentRotationState.execute(app);
+			currentRotationState.execute(p);
 		}
 	}
 	
@@ -67,23 +67,23 @@ public class RegionStateMachine {
 		previousState = currentState;
 		
 		//call exit on the current state
-		currentState.exit(app);
+		currentState.exit(p);
 		
 		// update the current state...
 		currentState = newState;
 		
 		// ...run entry logic for current state
-		currentState.enter(app);
+		currentState.enter(p);
 	}
 	
 	public void changeRotation(RotationState newState) {
 		assert newState != null : "<StateMachine::changeState> trying to assign null state to rotation current";
 
-		currentRotationState.exit(app);
+		currentRotationState.exit(p);
 
 		currentRotationState = newState;
 
-		currentRotationState.enter(app);
+		currentRotationState.enter(p);
 
 	}
 	public void revertToPreviousState() {
