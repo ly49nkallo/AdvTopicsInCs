@@ -10,12 +10,14 @@ public class Particle extends MoveableGameEntity{
     // Option to allow particles to spawn anywhere
     private final boolean OnlySpawnInDefaultRegion = false;
 
-    protected PApplet app = null;
+    protected DemoApp app = null;
 
     public static final Integer UPPERLEFT = 0;
 	public static final Integer UPPERRIGHT = 1;
 	public static final Integer LOWERLEFT = 2;
 	public static final Integer LOWERRIGHT = 3;
+
+    public long previousInput = 0L;
 
     Region[] regions;
     Region currentRegion;
@@ -39,6 +41,7 @@ public class Particle extends MoveableGameEntity{
 
         
         currentRegion = regions[0];
+
         if (OnlySpawnInDefaultRegion) {
             pos.x = rand.nextInt((int)currentRegion.right());
             pos.y = rand.nextInt((int)currentRegion.bottom());
@@ -50,6 +53,7 @@ public class Particle extends MoveableGameEntity{
             
 		// create State Machine
 		sm = new RegionStateMachine(this);
+
 		sm.setGlobalState(GlobalRegionState.getInstance());
 		sm.setCurrentState(UpperLeftAnimateState.getInstance());
         

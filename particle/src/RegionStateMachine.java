@@ -53,10 +53,12 @@ public class RegionStateMachine {
 		if(globalRotationState != null) {
 			globalRotationState.execute(p);
 		}
+		else System.out.println("help");
 
 		if(currentRotationState != null) {
 			currentRotationState.execute(p);
 		}
+		else System.out.println("help");
 	}
 	
 	

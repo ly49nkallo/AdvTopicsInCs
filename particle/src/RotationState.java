@@ -29,7 +29,6 @@ class GlobalRotationState extends RotationState {
     private static String myname = "GlobalRotationState";
     private static GlobalRotationState instance = null;
     
-    private Long previousInput = 0L;
     private final Double delay = 200d;
 
     private GlobalRotationState() {
@@ -46,9 +45,9 @@ class GlobalRotationState extends RotationState {
     @Override
     public void execute(Particle r) {
         //detect user input to change directions
-        
-        if (r.app.keyPressed == true && System.currentTimeMillis() > (previousInput + delay)) {
-            previousInput = System.currentTimeMillis();
+        // r.app.keyPressed == true && 
+        if (r.app.keyPressed == true && System.currentTimeMillis() > (r.previousInput + delay)) {
+            r.previousInput = System.currentTimeMillis();
             System.out.println("Key Pressed");
             if (r.sm.isInRotationState(ClockwiseRotationState.getInstance())) {
                 r.sm.setCurrentRotationState(CClockwiseRotationState.getInstance());
