@@ -5,7 +5,7 @@ import java.util.Random;
 public class DemoApp extends PApplet {
 
 	Particle[] particles;
-	private final int numberOfParticles = 20;
+	private final int numberOfParticles = 100;
 
     public static void main(String[] args) {
         PApplet.main(DemoApp.class);

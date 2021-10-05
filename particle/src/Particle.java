@@ -7,8 +7,14 @@ public class Particle extends MoveableGameEntity{
     public static final float speed = 1.7f;
     public static final float FRICTION = 0.1f;
     public RegionStateMachine sm;
+
+
     // Option to allow particles to spawn anywhere
     private final boolean OnlySpawnInDefaultRegion = false;
+
+    // Option to have small varience in mass for each particle
+    private final boolean randomMass = false;
+    private final int varience = 3;
 
     protected DemoApp app = null;
 
@@ -49,6 +55,10 @@ public class Particle extends MoveableGameEntity{
         else {
             pos.x = rand.nextInt((int)width);
             pos.y = rand.nextInt((int)height);
+        }
+
+        if (randomMass) {
+            mass = rand.nextInt(varience) + mass;
         }
             
 		// create State Machine

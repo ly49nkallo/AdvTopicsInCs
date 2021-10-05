@@ -72,7 +72,6 @@ class GlobalRegionState extends RegionState {
 				}
 			}
 		}
-		
 	}
 	
 	// Override enter and exit so we don't print the default messages

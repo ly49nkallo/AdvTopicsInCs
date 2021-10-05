@@ -4,7 +4,7 @@ import processing.core.PVector;
 public class MoveableGameEntity {
 	private static final PApplet ctx = DemoApp.ctx;
 	private int size = 15;
-	private double mass = 5;
+	protected double mass = 5;
 	
 	PVector pos = new PVector();
 	PVector vel = new PVector();
@@ -34,7 +34,7 @@ public class MoveableGameEntity {
 	
 	public void draw() {
 		ctx.pushStyle();
-		ctx.fill(0);
+		ctx.fill(0,150);
 		ctx.stroke(0);
 		ctx.circle(pos.x, pos.y, size);
 		ctx.popStyle();
