@@ -1,11 +1,13 @@
 import studio.itrack.buckland.common.graph.*;
-import java.util.Iterator;
+//import java.util.Iterator;
 
-
+// Author: Ty Brennan
+// Advanced Computer Science
+// 10-18-2021
 public class Main {
     public static void main(String[] args) {
         MyGraph instance = MyGraph.getInstance();
-        System.out.println(instance.toString());
+        //System.out.println(instance.toString());
 		/*
 		"entrance",					// 1
         "dining commons",			// 2
