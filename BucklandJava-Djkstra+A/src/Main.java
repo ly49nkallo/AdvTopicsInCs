@@ -1,12 +1,10 @@
 import studio.itrack.buckland.common.graph.*;
-import studio.itrack.buckland.common.graph.SearchAlogorithms;
 //import java.util.Iterator;
 
 // Author: Ty Brennan
 // Advanced Computer Science
 // 10-18-2021
 public class Main {
-    public SearchAlogorithms a;
     public static void main(String[] args) {
         MyGraph instance = MyGraph.getInstance();
         //System.out.println(instance.toString());
@@ -34,9 +32,9 @@ public class Main {
 		for (int i = 0; i < tests.length; i+=2) {
 			System.out.println("from " + tests[i] + " to " + tests[i+1]);
 			System.out.println("BFS");
-			SearchAlogorithms.BFS(tests[i], tests[i+1], instance);
+			instance.BFS(tests[i], tests[i+1]);
 			System.out.println("DFS");
-			SearchAlogorithms.DFS(tests[i], tests[i+1], instance);
+			instance.DFS(tests[i], tests[i+1]);
 			System.out.println("--------------------------");
 		}
 			
