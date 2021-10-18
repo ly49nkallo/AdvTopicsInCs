@@ -8,7 +8,7 @@ import studio.itrack.buckland.common.graph.SearchAlogorithms;
 public class Main {
     public SearchAlogorithms a;
     public static void main(String[] args) {
-        MyGraph instance = MyGraph.getInstance();
+        GeffenGraph instance = GeffenGraph.getInstance();
         //System.out.println(instance.toString());
 		/*
 		"entrance",					// 1
@@ -39,6 +39,21 @@ public class Main {
 			SearchAlogorithms.DFS(tests[i], tests[i+1], instance);
 			System.out.println("--------------------------");
 		}
-			
+        /*
+        TestGraph testInstance = TestGraph.getInstance();
+        tests = new int[]{
+			1,2,
+            1,5,
+            1,10,
+		};
+		for (int i = 0; i < tests.length; i+=2) {
+			System.out.println("from " + tests[i] + " to " + tests[i+1]);
+			System.out.println("BFS");
+			SearchAlogorithms.BFS(tests[i], tests[i+1], testInstance);
+			System.out.println("DFS");
+			SearchAlogorithms.DFS(tests[i], tests[i+1], testInstance);
+			System.out.println("--------------------------");
+		}
+		*/
     }
 }

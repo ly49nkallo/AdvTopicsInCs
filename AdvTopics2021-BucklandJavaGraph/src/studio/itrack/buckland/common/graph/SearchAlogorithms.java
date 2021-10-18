@@ -96,12 +96,16 @@ public class SearchAlogorithms {
 			visited[fn.index()] = true;
 			//iterate over all children and add then to the stack
 			Iterator<GraphEdge> iterator = instance.edgeIterator(fn.index());
+            GraphEdge previousEdge = null;
 			while (iterator.hasNext()) {
 				GraphEdge e = iterator.next();
+                //check for case where we immediately loop back
+                if (previousEdge != null) if (e.to() == previousEdge.from()) continue;
 				if (!visited[e.to()]) {
 					stack.add(instance.getNode(e.to()));
 					edges.add(e);
 				}
+                previousEdge = e;
 			}
 			//System.out.println(stack);
 			//System.out.println(visitedEdges);
