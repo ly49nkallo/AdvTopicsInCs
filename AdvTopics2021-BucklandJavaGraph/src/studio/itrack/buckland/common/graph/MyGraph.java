@@ -1,37 +1,201 @@
 package studio.itrack.buckland.common.graph;
-
-
 import com.eckel.UnitTest;
-
 
 import static org.hamcrest.MatcherAssert.*;
 
-import java.util.Iterator;
+import java.util.Queue;
+import java.util.Stack;
 
+import javax.swing.plaf.TreeUI;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import static org.hamcrest.CoreMatchers.*;
 
-public class SparseGraph extends AbstractSparseGraph<GraphNode,GraphEdge>  {
-	
-	public SparseGraph(boolean directed) {
-		super(directed);
+
+public class MyGraph extends AbstractSparseGraph<GraphNode,GraphEdge> {
+
+    public MyGraph(boolean directed) {
+        super(directed);
+    }
+
+	public static MyGraph instance = null;
+	public static MyGraph getInstance() {
+		if (instance == null) {
+			instance = new MyGraph(false);
+			instance.setup();
+		}
+		return instance;
 	}
-	
-	@Override
+
+
+	String[] names = {
+        "entrance",					// 1
+        "dining commons",			// 2
+        "living room",				// 3
+        "basketball court",			// 4
+        "makerspace",				// 5
+        "gym",						// 6
+        "elevator - level 1",		// 7
+        "elevator - level 2",		// 8
+        "elevator - level 3",		// 9
+        "meeting space level 2",	//10
+        "library",					//11
+        "science lounge",			//12
+        "common space 3rd floor",	//13
+        "music room lounge space",	//14
+    };
+
+	int[] paths = {
+		1,2,
+		1,3,
+		1,4,
+		2,3,
+		2,5,
+		3,4,
+		3,5,
+		3,6,
+		3,7,
+		4,6,
+		5,6,
+		5,7,
+		6,7,
+		7,8,
+		8,9,
+		8,10,
+		9,13,
+		9,14,
+		10,11,
+		11,12,
+		12,13,
+		13,14,
+	};
+
+    @Override
 	public GraphEdge createEdge(int from, int to, double cost) {
 		return new GraphEdge(from,to, cost);
 	}
 
-	/*
-	 * Class for quick unit testing of the class functionality
-	 * Must Use com.eckel.RunUnitTest to run the tests
-	 * 
-	 * TODO but this in the build file for easier running 
-	 */
-	public static class TestSparseGraph extends UnitTest {		
+    public void setup() {
+        int nodeCount = names.length;
+        for(int i=0; i < nodeCount; ++i) {
+            instance.addNode(new GraphNode(instance.getNextFreeNodeIndex()));
+        }
 		
-		/**
-		 * 
-		 */
+		for (int i = 0; i < paths.length; i += 2){
+			instance.addEdge(new GraphEdge(paths[i]-1, paths[i+1]-1));
+		}
+		/*
+		for (int i = 0; i < names.length; ++i){
+			// this is how you can iterate the edges coming from a node
+			Iterator<GraphEdge> edgeIt = instance.edgeIterator(i);
+				
+			// verify that there are 2 connections coming off of 2
+			while(edgeIt.hasNext()) {
+				GraphEdge e = edgeIt.next();
+				System.out.println(e);
+			}
+		}
+		*/
+	}
+
+  	public boolean BFS(int from, int to){
+		//convert to indicies
+		from -= 1; to -= 1;
+		boolean[] visited = new boolean[instance.numberOfNodes()];
+		//queue inheriter that preserves order
+		Queue<GraphNode> queue = new LinkedList<GraphNode>();
+		//track edges investigated
+		ArrayList<GraphEdge> edges = new ArrayList<GraphEdge>();
+		//initialize current starting node
+		visited[from] = true;
+		queue.add(instance.getNode(from));
+		
+		while(queue.size() != 0) {
+			//pop item from queue
+			GraphNode focusedNode = queue.poll();
+			Iterator<GraphEdge> edgeIt = instance.edgeIterator(focusedNode.index());
+			//iterate over all edges originating at the polled node
+			while(edgeIt.hasNext()) {
+				GraphEdge e = edgeIt.next();
+				//filter out only nodes that have not already been explored
+				if (!visited[e.to()]) {
+					visited[e.to()] = true;
+					queue.add(instance.getNode(e.to()));
+					edges.add(e);
+					//Show investigation
+					System.out.print(focusedNode.index() + 1);
+					System.out.print(" --> ");
+					System.out.println(e.to() + 1);
+					//System.out.println(queue);
+					//System.out.println(edges);
+					//check to see if revealed node is correct
+					if (e.to() == to) break;
+				}
+			}
+			// exit if target node never visited
+			if (visited[to]) {break;}
+			// check to see if target node is found
+		}
+		if (!visited[to]) {System.out.println("NO RESULT"); return false;}
+		LinkedList<GraphEdge> path = new LinkedList<GraphEdge>();
+		//Traceback
+		GraphEdge e = edges.get(edges.size() - 1);
+		path.add(e);
+		while (e.from() != from) {
+			for (int i = 0; i < edges.size(); i++){
+				if (edges.get(i).to() == e.from()){
+					e = edges.get(i);
+					path.add(e);
+					break;
+				}
+			}
+		}
+
+		//iterate over the backtracked path in reverse order
+		System.out.println("PATH FOUND: ");
+		System.out.print((path.get(path.size() - 1).from() + 1) + "-->");
+		for (int i = path.size() - 1; i > -1; i--) {
+			GraphEdge ge = path.get(i);
+			System.out.print((ge.to() + 1) + "-->");
+		}
+		System.out.println();
+
+		return true;
+	} 
+
+	public void DFS(int from, int to) {
+		from -= 1; to -= 1;
+		Stack<GraphNode> stack = new Stack<GraphNode>();
+		//initializes to all false
+		boolean[] visited = new boolean[instance.numberOfNodes()];
+		//initialize from node
+		stack.add(instance.getNode(from));
+		while (stack.size() != 0) {
+			//pop off the first item of the stack and expand it
+			GraphNode fn  = stack.pop();
+			System.out.println(fn);
+			visited[fn.index()] = true;
+			Iterator<GraphEdge> iterator = instance.edgeIterator(fn.index());
+			while (iterator.hasNext()) {
+				GraphEdge e = iterator.next();
+				if (!visited[e.to()]) {
+					stack.add(instance.getNode(e.to()));
+				}
+			}
+			System.out.println(stack);
+			if (stack.contains(instance.getNode(to))) break;	
+		}
+	}
+
+    public static class Test extends UnitTest{
+		public void testGraph() {
+			MyGraph mygraph = new MyGraph(false);
+			mygraph.setup();
+
+		}
+
 		public void testNodeCreation() {
 			// to create GraphNode just pass in an index BUT!!
 			// beware you need to do this differently when you are 
@@ -135,9 +299,7 @@ public class SparseGraph extends AbstractSparseGraph<GraphNode,GraphEdge>  {
 				assertThat( e.to(), anyOf(equalTo(1), equalTo(0)));
 			}
 		}
-		
-		
-		public void testUndirectedGraphEdgeCreation() {
+        public void testUndirectedGraphEdgeCreation() {
 			//create a directed graph
 			SparseGraph graph = new SparseGraph(false);
 			
@@ -182,6 +344,8 @@ public class SparseGraph extends AbstractSparseGraph<GraphNode,GraphEdge>  {
 				assertThat( e.to(), anyOf(equalTo(1), equalTo(0)));
 			}			
 		}
-	
-	}
+    }
+   
+
 }
+

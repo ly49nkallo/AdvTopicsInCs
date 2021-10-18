@@ -15,7 +15,8 @@ public class RunUnitTests {
 	public static void main(String[] args) {
 		// Checking the internal state of the runner..
 		// System.out.println("I am running in: " + System.getProperty("user.dir"));
-		
+		args = new String[1];
+		args[0] = "studio.itrack.buckland.common.graph.MyGraph";
 		require(args.length == 1, "Usage: RunUnitTests qualified-class");
 		
 		// number of tests run
@@ -83,7 +84,7 @@ public class RunUnitTests {
 			e.printStackTrace(System.err);
 			// Any exception will return a nonzero
 			// value to the console, so that
-			// 'make' will abort:
+			// 'make' will abort:	
 			System.exit(0);
 		}
 		
