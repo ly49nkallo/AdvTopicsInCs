@@ -1,12 +1,10 @@
 import studio.itrack.buckland.common.graph.*;
-import studio.itrack.buckland.common.graph.SearchAlogorithms;
 //import java.util.Iterator;
 
 // Author: Ty Brennan
 // Advanced Computer Science
 // 10-18-2021
 public class Main {
-    public SearchAlogorithms a;
     public static void main(String[] args) {
         GeffenGraph instance = GeffenGraph.getInstance();
         //System.out.println(instance.toString());
@@ -55,5 +53,6 @@ public class Main {
 			System.out.println("--------------------------");
 		}
 		*/
+
     }
 }

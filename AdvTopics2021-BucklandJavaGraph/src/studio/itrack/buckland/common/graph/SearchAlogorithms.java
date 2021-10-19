@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Iterator;
-import studio.itrack.buckland.common.graph.SparseGraph;
 
 public class SearchAlogorithms {
-    public SearchAlogorithms(){
-    }
+    public SearchAlogorithms(){}
     
     public static boolean BFS(int from, int to, SparseGraph instance){
 		//convert to indicies
@@ -80,7 +78,6 @@ public class SearchAlogorithms {
 		}
 		return x;
 	} 
-
 	public static boolean DFS(int from, int to, SparseGraph instance) {
 		from -= 1; to -= 1;
 		Stack<GraphNode> stack = new Stack<GraphNode>();
@@ -92,7 +89,7 @@ public class SearchAlogorithms {
 		while (stack.size() != 0) {
 			//pop off the first item of the stack and expand it
 			GraphNode fn  = stack.pop();
-			System.out.println(fn);
+			System.out.println("expanding node: " + (int)(fn.index() + 1));
 			visited[fn.index()] = true;
 			//iterate over all children and add then to the stack
 			Iterator<GraphEdge> iterator = instance.edgeIterator(fn.index());
@@ -144,4 +141,6 @@ public class SearchAlogorithms {
 		return x;
 		
 	}
+	public static boolean Djikstra() {return false;}
+	public static boolean AStar() {return false;}
 }
