@@ -1,6 +1,9 @@
 package studio.itrack.buckland.common.graph;
 import java.util.Queue;
+import java.util.Set;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Iterator;
@@ -141,6 +144,37 @@ public class SearchAlogorithms {
 		return x;
 		
 	}
-	public static boolean Djikstra() {return false;}
+	public static boolean Dijkstra(int from, int to, SparseGraph instance) {
+		from--; to--;
+		ArrayList<GraphNode> path = new ArrayList<GraphNode>();
+		float[] distance = new float[instance.numberActiveNodes()];
+		//set every distance to a high number except for the root node
+		for (int i = 0; i < distance.length; i++) {
+			if (i == from) continue;
+			distance[i] = Integer.MAX_VALUE;
+		}
+		//initialize current node
+		GraphNode currentNode = instance.getNode(from);
+
+		while (path.size() < instance.numberOfNodes()) {
+			GraphNode u = null;
+			//iterate over all of the children of the current node
+			Iterator<GraphEdge> IT = instance.edgeIterator(currentNode.index());
+			while (IT.hasNext()) {
+				GraphEdge e = IT.next();
+				GraphNode eto = instance.getNode(e.to());
+				//ensure u is not already in the path
+				if (!path.contains(eto)){
+					if (u == null) u = eto;
+					//find connected node with least distance
+					if (distance[e.to()] < distance[u.index()]) u = eto;
+				}
+				if (u == null) System.out.println("ERR: U IS NULL");
+				
+
+			}
+		}
+		return true;
+	}
 	public static boolean AStar() {return false;}
 }
