@@ -1,5 +1,5 @@
 package studio.itrack.buckland.common.graph;
-
+import java.lang.Comparable;
 /**
  * class to represent graph nodes in algorithms
  * This is a bare bones node. Subclass this to add state information

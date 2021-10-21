@@ -1,18 +1,22 @@
 package studio.itrack.buckland.common.graph;
 
-
-//Desc:   Class to define an edge connecting two nodes.
+import java.lang.Comparable;
 //
 //An edge has an associated cost.
-public class GraphEdge {
+public class GraphEdge implements Comparable<GraphEdge>{
 	protected int from,  to;
 	protected double cost;
-	 
 	
 	public GraphEdge(int from, int to, double cost) {
 		this.from = from;
 		this.to = to;
 		this.cost = cost;
+	}
+
+	@Override
+	public int compareTo(GraphEdge other){
+		if (other.cost() == cost) return 0;
+		return (int)(cost - other.cost());
 	}
 	
 	public GraphEdge(int from, int to) {

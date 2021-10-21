@@ -70,7 +70,7 @@ public class Homework4 {
 	 * 
 	 * @return SparseGraph where nodes have the city name attached
 	 */
-	static StringNodeSparseGraph romaniaGraph() {
+	public static StringNodeSparseGraph romaniaGraph() {
 		//not directed
 		StringNodeSparseGraph romania = new StringNodeSparseGraph(false);
 		
@@ -113,7 +113,7 @@ public class Homework4 {
 	 * Returns the graph that is used in the Buckland Example from class
 	 * @return
 	 */
-	static SparseGraph bucklandDjikstraGraph() {
+	public static SparseGraph bucklandDjikstraGraph() {
 		SparseGraph graph = new SparseGraph(true);
 		//create nodes
 		for(int i=0; i < 7; ++i) {

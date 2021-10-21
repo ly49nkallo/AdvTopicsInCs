@@ -6,7 +6,7 @@ import studio.itrack.buckland.common.graph.*;
 // 10-18-2021
 public class Main {
     public static void main(String[] args) {
-        GeffenGraph instance = GeffenGraph.getInstance();
+        SparseGraph instance = GeffenGraph.getInstance();
         //System.out.println(instance.toString());
 		/*
 		"entrance",					// 1
@@ -37,6 +37,7 @@ public class Main {
 			SearchAlogorithms.DFS(tests[i], tests[i+1], instance);
 			System.out.println("--------------------------");
 		}
+		instance = Homework4.bucklandDjikstraGraph();
         /*
         TestGraph testInstance = TestGraph.getInstance();
         tests = new int[]{

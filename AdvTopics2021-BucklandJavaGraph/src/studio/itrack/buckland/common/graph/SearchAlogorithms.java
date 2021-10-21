@@ -2,7 +2,6 @@ package studio.itrack.buckland.common.graph;
 import java.util.Queue;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Iterator;
@@ -146,7 +145,13 @@ public class SearchAlogorithms {
 	}
 	public static boolean Dijkstra(int from, int to, SparseGraph instance) {
 		from --; to --;
-
+		PriorityQueue<GraphEdge> path = new PriorityQueue<GraphEdge>();
+		for (ArrayList<GraphEdge> e : instance.edges){
+			for (GraphEdge ed : e){
+				path.add(ed);
+			}
+		}
+		System.out.println(path);
 		return true;
 	}
 	public static boolean AStar() {return false;}

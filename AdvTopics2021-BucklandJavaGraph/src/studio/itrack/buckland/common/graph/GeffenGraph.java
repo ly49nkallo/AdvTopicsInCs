@@ -6,17 +6,8 @@ public class GeffenGraph extends SparseGraph {
         super(directed);
     }
 
-	public static GeffenGraph instance = null;
-	public static GeffenGraph getInstance() {
-		if (instance == null) {
-			instance = new GeffenGraph(false);
-			instance.setup();
-		}
-		return instance;
-	}
 
-
-	String[] names = {
+	static String[] names = {
         "entrance",					// 1
         "dining commons",			// 2
         "living room",				// 3
@@ -33,7 +24,7 @@ public class GeffenGraph extends SparseGraph {
         "music room lounge space",	//14
     };
 
-	int[] paths = {
+	static int[] paths = {
 		1,2,
 		1,3,
 		1,4,
@@ -58,7 +49,8 @@ public class GeffenGraph extends SparseGraph {
 		13,14,
 	};
 
-    public void setup() {
+    public static GeffenGraph getInstance() {
+		GeffenGraph instance = new GeffenGraph(false);
         int nodeCount = names.length;
         for(int i=0; i < nodeCount; ++i) {
             instance.addNode(new GraphNode(instance.getNextFreeNodeIndex()));
@@ -67,6 +59,7 @@ public class GeffenGraph extends SparseGraph {
 		for (int i = 0; i < paths.length; i += 2){
 			instance.addEdge(new GraphEdge(paths[i]-1, paths[i+1]-1));
 		}
+		
 		/*
 		for (int i = 0; i < names.length; ++i){
 			// this is how you can iterate the edges coming from a node
@@ -79,6 +72,7 @@ public class GeffenGraph extends SparseGraph {
 			}
 		}
 		*/
+		return instance;
 	}
 }
 
