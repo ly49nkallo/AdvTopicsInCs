@@ -10,8 +10,7 @@ public class SearchAlogorithms {
     public SearchAlogorithms(){}
     
     public static boolean BFS(int from, int to, SparseGraph instance){
-		//convert to indicies
-		from -= 1; to -= 1;
+		
 		boolean[] visited = new boolean[instance.numberOfNodes()];
 		//queue inheriter that preserves order
 		Queue<GraphNode> queue = new LinkedList<GraphNode>();
@@ -34,9 +33,9 @@ public class SearchAlogorithms {
 					queue.add(instance.getNode(e.to()));
 					edges.add(e);
 					//Show investigation
-					System.out.print(focusedNode.index() + 1);
+					System.out.print(focusedNode.index());
 					System.out.print(" --> ");
-					System.out.println(e.to() + 1);
+					System.out.println(e.to());
 					//System.out.println(queue);
 					//System.out.println(edges);
 					//check to see if revealed node is correct
@@ -68,10 +67,10 @@ public class SearchAlogorithms {
 		//iterate over the backtracked path in reverse order
 		if (x) {
 			System.out.println("PATH FOUND: ");
-			System.out.print((path.get(path.size() - 1).from() + 1) + "-->");
+			System.out.print((path.get(path.size() - 1).from() ) + "-->");
 			for (int i = path.size() - 1; i > -1; i--) {
 				GraphEdge ge = path.get(i);
-				System.out.print((ge.to() + 1) + "-->");
+				System.out.print((ge.to()) + "-->");
 			}
 			System.out.println();
 		} else {
@@ -80,7 +79,7 @@ public class SearchAlogorithms {
 		return x;
 	} 
 	public static boolean DFS(int from, int to, SparseGraph instance) {
-		from -= 1; to -= 1;
+		
 		Stack<GraphNode> stack = new Stack<GraphNode>();
 		LinkedList<GraphEdge> edges = new LinkedList<GraphEdge>();
 		//initializes to all false
@@ -130,12 +129,12 @@ public class SearchAlogorithms {
 		//iterate over the backtracked path in reverse order
 		if (x) {
 			System.out.println("PATH FOUND: ");
-			System.out.print((path.get(path.size() - 1).from() + 1) + "-->");
+			System.out.print((path.get(path.size() - 1).from()) + "-->");
 			for (int i = path.size() - 1; i > -1; i--) {
 				GraphEdge ge = path.get(i);
-				System.out.print((ge.to() + 1) + "-->");
+				System.out.print((ge.to()) + "-->");
 			}
-			System.out.print(to + 1);
+			System.out.print(to);
 			System.out.println();
 		} else {
 			System.out.println("NO PATH FOUND");
@@ -143,15 +142,14 @@ public class SearchAlogorithms {
 		return x;
 		
 	}
-	public static boolean Dijkstra(int from, int to, SparseGraph instance) {
-		from --; to --;
+	public static boolean Dijkstra(int from, int to, AbstractSparseGraph<GraphNode,GraphEdge> instance) {
 		PriorityQueue<GraphEdge> path = new PriorityQueue<GraphEdge>();
 		for (ArrayList<GraphEdge> e : instance.edges){
 			for (GraphEdge ed : e){
 				path.add(ed);
 			}
 		}
-		System.out.println(path);
+		
 		return true;
 	}
 	public static boolean AStar() {return false;}

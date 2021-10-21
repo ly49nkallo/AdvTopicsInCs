@@ -52,12 +52,12 @@ public class GeffenGraph extends SparseGraph {
     public static GeffenGraph getInstance() {
 		GeffenGraph instance = new GeffenGraph(false);
         int nodeCount = names.length;
-        for(int i=0; i < nodeCount; ++i) {
+        for(int i=0; i < nodeCount+1; ++i) {
             instance.addNode(new GraphNode(instance.getNextFreeNodeIndex()));
         }
 		
 		for (int i = 0; i < paths.length; i += 2){
-			instance.addEdge(new GraphEdge(paths[i]-1, paths[i+1]-1));
+			instance.addEdge(new GraphEdge(paths[i], paths[i+1]));
 		}
 		
 		/*

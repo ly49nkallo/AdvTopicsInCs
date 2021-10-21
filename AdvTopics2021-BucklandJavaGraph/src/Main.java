@@ -38,6 +38,8 @@ public class Main {
 			System.out.println("--------------------------");
 		}
 		instance = Homework4.bucklandDjikstraGraph();
+
+		SearchAlogorithms.Dijkstra(1,5,instance);
         /*
         TestGraph testInstance = TestGraph.getInstance();
         tests = new int[]{
