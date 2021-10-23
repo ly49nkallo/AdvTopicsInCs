@@ -1,7 +1,6 @@
 package studio.itrack.buckland.common.graph;
 
-import java.lang.Comparable;
-//
+import java.lang.Comparable;//
 //An edge has an associated cost.
 public class GraphEdge implements Comparable<GraphEdge>{
 	protected int from,  to;
@@ -15,8 +14,10 @@ public class GraphEdge implements Comparable<GraphEdge>{
 
 	@Override
 	public int compareTo(GraphEdge other){
-		if (other.cost() == cost) return 0;
-		return (int)(cost - other.cost());
+		//if (Math.abs(this.cost() - other.cost()) < 0.001) return 0;
+		//System.out.println((this.cost()+' '+ other.cost()));
+		//System.out.println(Double.compare(this.cost(), other.cost()));
+		return Double.compare(this.cost(), other.cost());
 	}
 	
 	public GraphEdge(int from, int to) {

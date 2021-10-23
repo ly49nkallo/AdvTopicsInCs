@@ -4,7 +4,11 @@ import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
+
+import studio.itrack.buckland.common.graph.Homework4.StringNodeSparseGraph;
+
 import java.util.Iterator;
+import java.lang.Comparable;
 
 public class SearchAlogorithms {
     public SearchAlogorithms(){}
@@ -142,15 +146,25 @@ public class SearchAlogorithms {
 		return x;
 		
 	}
-	public static boolean Dijkstra(int from, int to, AbstractSparseGraph<GraphNode,GraphEdge> instance) {
-		PriorityQueue<GraphEdge> path = new PriorityQueue<GraphEdge>();
-		for (ArrayList<GraphEdge> e : instance.edges){
-			for (GraphEdge ed : e){
-				path.add(ed);
-			}
+	public static boolean Dijkstra(int from, int to, SparseGraph instance) {
+		PriorityQueue<GraphEdge> q = new PriorityQueue<GraphEdge>();
+		double[] distance = new double[instance.numberOfNodes()];
+		int[] parent = new int[instance.numberOfNodes()];
+		for (int i = 0; i < distance.length; ++i) {distance[i] = Double.MAX_VALUE; parent[i] = -1;}
+		distance[from - 1] = 0d;
+		//initialize the queue
+		//find the shortest path for each vertice
+		for (int i = 0; i < instance.numberOfNodes(); ++i) {
+			
 		}
-		
 		return true;
 	}
+	private GraphEdge minDistance(int[] distance, Queue<GraphEdge> queue, int source) {
+		double min = Double.MIN_VALUE;
+		for (GraphEdge e : queue) {
+			
+		}
+	}
+	public static boolean Dijkstra (int from, int to, StringNodeSparseGraph instance) {return false;}
 	public static boolean AStar() {return false;}
 }
