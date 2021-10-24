@@ -30,16 +30,14 @@ public class Main {
 			14,1,
 		};
 		for (int i = 0; i < tests.length; i+=2) {
-			System.out.println("from " + tests[i] + " to " + tests[i+1]);
-			System.out.println("BFS");
+			//use the geffen graph to test the BFS and DFS algorithms
 			SearchAlogorithms.BFS(tests[i], tests[i+1], instance);
-			System.out.println("DFS");
 			SearchAlogorithms.DFS(tests[i], tests[i+1], instance);
-			System.out.println("--------------------------");
+			SearchAlogorithms.Dijkstra(tests[i], tests[i+1], instance);
 		}
-		instance = Homework4.bucklandDjikstraGraph();
+		instance = TestGraph.getInstance();
 
-		SearchAlogorithms.Dijkstra(1,5,instance);
+		SearchAlogorithms.Dijkstra(0,4,instance);
         /*
         TestGraph testInstance = TestGraph.getInstance();
         tests = new int[]{
