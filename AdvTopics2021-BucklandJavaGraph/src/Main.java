@@ -6,7 +6,7 @@ import studio.itrack.buckland.common.graph.*;
 // 10-18-2021
 public class Main {
     public static void main(String[] args) {
-        SparseGraph instance = GeffenGraph.getInstance();
+        AbstractSparseGraph<GraphNode,GraphEdge> instance = GeffenGraph.getInstance();
         //System.out.println(instance.toString());
 		/*
 		"entrance",					// 1
@@ -23,7 +23,7 @@ public class Main {
         "science lounge",			//12
         "common space 3rd floor",	//13
         "music room lounge space",	//14
-		*/
+		
 		int[] tests = {
 			1,5,
 			11,2,
@@ -35,9 +35,10 @@ public class Main {
 			SearchAlogorithms.DFS(tests[i], tests[i+1], instance);
 			SearchAlogorithms.Dijkstra(tests[i], tests[i+1], instance);
 		}
-		instance = TestGraph.getInstance();
-
-		SearchAlogorithms.Dijkstra(0,4,instance);
+		*/
+		SearchAlogorithms.Dijkstra(0,4,TestGraph.getInstance());
+		System.out.println("test");
+		SearchAlogorithms.Dijkstra(1,8,Homework4.romaniaGraph());
         /*
         TestGraph testInstance = TestGraph.getInstance();
         tests = new int[]{

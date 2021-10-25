@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
-import studio.itrack.buckland.common.graph.Homework4.StringNodeSparseGraph;
+
+import studio.itrack.buckland.common.graph.Homework4.*;
 
 import java.util.Iterator;
 import java.lang.Comparable;
@@ -13,7 +14,7 @@ import java.lang.Comparable;
 public class SearchAlogorithms {
     public SearchAlogorithms(){}
     
-    public static boolean BFS(int from, int to, SparseGraph instance){
+    public static boolean BFS(int from, int to, AbstractSparseGraph<GraphNode,GraphEdge> instance){
 		System.out.println("BFS from " + from + " to " + to);
 
 		boolean[] visited = new boolean[instance.numberOfNodes()];
@@ -84,7 +85,7 @@ public class SearchAlogorithms {
 		System.out.println("\n--------------------------");
 		return x;
 	} 
-	public static boolean DFS(int from, int to, SparseGraph instance) {
+	public static boolean DFS(int from, int to, AbstractSparseGraph<GraphNode,GraphEdge> instance) {
 		System.out.println("DFS from " + from + " to " + to);
 		Stack<GraphNode> stack = new Stack<GraphNode>();
 		LinkedList<GraphEdge> edges = new LinkedList<GraphEdge>();
@@ -152,9 +153,9 @@ public class SearchAlogorithms {
 	public static boolean Dijkstra(int from, int to, SparseGraph instance) {
 		//PriorityQueue<GraphEdge> q = new PriorityQueue<GraphEdge>();
 		System.out.println("Dijkstra from " + from + " to " + to);
+		System.out.println();
 		ArrayList<GraphNode> unvisitedNodes = new ArrayList<GraphNode>();
-		for (GraphNode n : instance.nodes)  {if (n == instance.getNode(from)) continue; if (n.index == 0) continue; unvisitedNodes.add(n);}
-
+		for (GraphNode n : instance.nodes)  {if (n == instance.getNode(from)) continue; unvisitedNodes.add(n);}
 		boolean[] visited = new boolean[instance.numberOfNodes()];
 		double[] distance = new double[instance.numberOfNodes()];
 
@@ -193,7 +194,7 @@ public class SearchAlogorithms {
 		}
 		// print out information we found
 		for (int i = 0; i < distance.length; i++) if (distance[i] != Double.MAX_VALUE) System.out.println("Distance from " + i + ":" + distance[i] + ",");
-		System.out.println("Parents");
+		System.out.println("------PARENTS------");
 		for (int i = 0; i < parent.length; i++) if (parent[i] != -1) System.out.println(i + " is a child of " + parent[i] + ",");
 
 		//traceback using parent list
@@ -213,10 +214,85 @@ public class SearchAlogorithms {
 		for (int i = invertedPath.size() - 2; i > -1; i--){
 			System.out.print("-->" + invertedPath.get(i));
 		}
-		
+		System.out.println("\nTotal Distance:" + distance[to]);
 		System.out.println("\n--------------------------");
 		return true;
 	}
+
+	//super implentation for stringNodeSparseGraphs. I wasn't able to make the original function work with both nodetypes for
+	//the abstract sparse graph...
+
+	public static boolean Dijkstra(int from, int to, StringNodeSparseGraph instance) {
+		//PriorityQueue<GraphEdge> q = new PriorityQueue<GraphEdge>();
+		System.out.println("Dijkstra from " + instance.getNode(from).label + " to " + instance.getNode(to).label);
+		System.out.println();
+		ArrayList<GraphNode> unvisitedNodes = new ArrayList<GraphNode>();
+		for (GraphNode n : instance.nodes)  {if (n == instance.getNode(from)) continue; unvisitedNodes.add(n);}
+		boolean[] visited = new boolean[instance.numberOfNodes()];
+		double[] distance = new double[instance.numberOfNodes()];
+
+		int[] parent = new int[instance.numberOfNodes()];
+		//initialize values
+		for (int i = 0; i < distance.length; ++i) {distance[i] = Double.MAX_VALUE; parent[i] = -1; parent[from] = from;}
+		distance[from] = 0d;
+		GraphNode currentNode = null;
+
+		//find the shortest path for each vertice
+		while(unvisitedNodes.size() > 0) {
+			//System.out.println("UnvisitedNodes: " + unvisitedNodes);
+			if (mini(distance, visited) == -1) {System.out.println("NO PATH FOUND"); return false;}
+			//if (currentNode != null) parent[mini(distance, visited)] = currentNode.index();
+			currentNode = instance.getNode(mini(distance, visited));
+			//System.out.println("CurrentNode: " + currentNode);
+			visited[currentNode.index()] = true;
+			unvisitedNodes.remove(currentNode);
+			//find add the edges of the node to the priority queue
+			Iterator<GraphEdge> Iterator = instance.edgeIterator(currentNode.index());
+			while (Iterator.hasNext()) {
+				GraphEdge edge = Iterator.next();	
+				//System.out.println(edge);
+				if (!visited[edge.to()]) {
+					//q.add(edge);
+					double newCost = distance[currentNode.index()] + edge.cost();
+					// if the new cost is better, reassign the parent as well as the tracked distance
+					if (newCost < distance[edge.to()]) {
+						distance[edge.to()] = newCost;
+						parent[edge.to()] = currentNode.index();
+					}
+				}
+			}
+			//for (int i = 0; i < distance.length; i++) System.out.println(i + ":" + distance[i] + ",");
+			//if we find the node we want, break out of loop
+			if (visited[to]) break;
+		}
+		// print out information we found
+		for (int i = 0; i < distance.length; i++) if (distance[i] != Double.MAX_VALUE) System.out.println("Distance from " + instance.getNode(i).label + ":" + distance[i] + ",");
+		System.out.println("------PARENTS------");
+		for (int i = 0; i < parent.length; i++) if (parent[i] != -1) System.out.println(instance.getNode(i).label + 
+													" is a child of " + instance.getNode(parent[i]).label + ",");
+
+		//traceback using parent list
+		ArrayList<Integer> invertedPath = new ArrayList<Integer>();
+		int ni = to;
+		while (ni != from) {
+			invertedPath.add(ni);
+			ni = parent[ni];
+			if (ni == -1) {System.out.println("hmmm..."); return false;}
+		}
+		invertedPath.add(from);
+
+		System.out.println("------PATH------");
+		//print the last (first) element of the path
+		System.out.print(instance.getNode(invertedPath.get(invertedPath.size() - 1)).label);
+		//iterate in reverse order to display the found path
+		for (int i = invertedPath.size() - 2; i > -1; i--){
+			System.out.print("-->" + instance.getNode(invertedPath.get(i)).label);
+		}
+		System.out.println("\nTotal Distance:" + distance[to]);
+		System.out.println("\n--------------------------");
+		return true;
+	}
+	
 	// find least value in a array of doubles (there's probably a java standard implementation but i'm too lazy to find out)
 	private static int mini(double[] a, boolean[] visited){
 		double min = Double.MAX_VALUE;
@@ -232,10 +308,8 @@ public class SearchAlogorithms {
 		//System.out.println(z);
 		return z;
 	}
-	//private GraphNode getMinNode (boolean[] visited, double[] distance, int from, SparseGraph instance, P) {
 		
 	//}
 	
-	public static boolean Dijkstra (int from, int to, StringNodeSparseGraph instance) {return false;}
 	public static boolean AStar() {return false;}
 }
