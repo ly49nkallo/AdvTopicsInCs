@@ -311,5 +311,47 @@ public class SearchAlogorithms {
 		
 	//}
 	
-	public static boolean AStar() {return false;}
+	public static boolean AStar(int from, int to, SparseGraph instance) {
+		System.out.println("A* from " + from + " to " + to);
+		System.out.println();
+		ArrayList<GraphNode> openNodes = instance.nodes;
+		//track parents
+		int[] parent = new int[instance.numberActiveNodes()];
+		//track cheapest path to indexed node
+		double[] gScore = new double[instance.numberActiveNodes()];
+		double[] fScore = new double[instance.numberActiveNodes()];
+		//initialize values
+		for (int i = 0; i < parent.length; i++) {
+			parent[i] = (i == from) ? from : -1;
+			gScore[i] = Double.MAX_VALUE;
+			fScore[i] = Double.MAX_VALUE;
+		}
+		gScore[from] = 0;
+		fScore[from] = h(from, to);
+
+		while(openNodes.size() > 0) {
+			//get node with lowest f value
+			double min = Double.MAX_VALUE;
+			GraphNode current = null;
+			for (GraphNode node : openNodes){
+				if (fScore[node.index()] < min) {
+					min = fScore[node.index()];
+					current = node;
+				}
+			}
+			if (current == instance.getNode(to)) return true;
+			
+			openNodes.remove(current);
+			Iterator<GraphEdge> Iterator = instance.edgeIterator(current.index());
+			while (Iterator.hasNext()) {
+				GraphEdge e = Iterator.next();
+				double tentative_gScore = gScore[current.index()] + instance.getEdge(current.index(), e.to()).cost();
+			}
+		}
+		return true;
+	}
+	private static double h(int index, int to) {
+		return 0;
+	}
+
 }

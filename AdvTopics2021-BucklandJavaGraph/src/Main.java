@@ -37,7 +37,6 @@ public class Main {
 		}
 		*/
 		SearchAlogorithms.Dijkstra(0,4,TestGraph.getInstance());
-		System.out.println("test");
 		SearchAlogorithms.Dijkstra(1,8,Homework4.romaniaGraph());
         /*
         TestGraph testInstance = TestGraph.getInstance();
