@@ -333,20 +333,50 @@ public class SearchAlogorithms {
 			//get node with lowest f value
 			double min = Double.MAX_VALUE;
 			GraphNode current = null;
-			for (GraphNode node : openNodes){
+			for (int i = 0; i < fScore.length; i++) System.out.println(fScore[i] + ",");
+			System.out.println(openNodes);
+			for (GraphNode node : openNodes) {
 				if (fScore[node.index()] < min) {
+					System.out.println("ree");
 					min = fScore[node.index()];
 					current = node;
 				}
 			}
-			if (current == instance.getNode(to)) return true;
+			System.out.println("current"  + current.index());
+			if (current == null) System.out.println("Current null");
+			if (current == instance.getNode(to)) break;
 			
 			openNodes.remove(current);
 			Iterator<GraphEdge> Iterator = instance.edgeIterator(current.index());
 			while (Iterator.hasNext()) {
 				GraphEdge e = Iterator.next();
 				double tentative_gScore = gScore[current.index()] + instance.getEdge(current.index(), e.to()).cost();
+				if (tentative_gScore > gScore[e.to()]) {
+					parent[e.to()] = current.index();
+					gScore[e.to()] = tentative_gScore;
+					fScore[e.to()] = gScore[e.to()] + h(e.to(), to);
+					if (!openNodes.contains(instance.getNode(e.to()))) {
+						openNodes.add(instance.getNode(e.to()));
+					}
+				}
 			}
+		}
+
+		ArrayList<Integer> invertedPath = new ArrayList<Integer>();
+		int ni = to;
+		while (ni != from) {
+			invertedPath.add(ni);
+			ni = parent[ni];
+			if (ni == -1) {System.out.println("hmmm..."); return false;}
+		}
+		invertedPath.add(from);
+
+		System.out.println("------PATH------");
+		//print the last (first) element of the path
+		System.out.print(invertedPath.get(invertedPath.size() - 1));
+		//iterate in reverse order to display the found path
+		for (int i = invertedPath.size() - 2; i > -1; i--){
+			System.out.print("-->" + invertedPath.get(i));
 		}
 		return true;
 	}
