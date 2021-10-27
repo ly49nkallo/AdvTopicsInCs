@@ -2,6 +2,7 @@ package studio.itrack.buckland.common.graph;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 public class Homework4 {
 
@@ -132,5 +133,71 @@ public class Homework4 {
 		
 		return graph;
 	}
+	/*
+	Arad=(91, 492), 
+	Bucharest=(400, 327),
+	Craiova=(253, 288),
 
+	Drobeta=(165, 299),
+	Eforie=(562, 293),
+	Fagaras=(305, 449),
+
+	Giurgiu=(375, 270),
+	Hirsova=(534, 350), 
+	Iasi=(473, 506),
+
+	Lugoj=(165, 379), 
+	Mehadia=(168, 339), 
+	Neamt=(406, 537),
+
+	Oradea=(131, 571),
+	Pitesti=(320, 368), 
+	Rimnicu=(233, 410),
+
+	Sibiu=(207, 457), 
+	Timisoara=(94, 410), 
+	Urziceni=(456, 350),
+
+	Vaslui=(509, 444), 
+	Zerind=(108, 531))
+	*/
+	public static double[][] romaniaHeuristic() {
+		double[][] coordinates = new double[romaniaGraph().numberActiveNodes()][romaniaGraph().numberActiveNodes()];
+		int[] pos = {
+			91, 492,
+			400, 327,
+			253, 288,
+			165, 299,
+			562, 293,
+			305, 449,
+			375, 270,
+			534, 350,
+			473, 506,
+			165, 379,
+			168, 339,
+			406, 537,
+			131, 571,
+			320, 368,
+			233, 410,
+			207, 457,
+			94, 410,
+			456, 350,
+			509, 444,
+			108, 531,
+		};
+		if (romaniaGraph().numberActiveNodes() != pos.length/2) System.out.println("err");
+
+		//calculate the distances between any two nodes
+		for(int i = 0; i < pos.length/2; i++){
+			for (int j = 0; j < pos.length/2; j++){
+				if (i == j) continue;
+				int distanceX = pos[j*2] - pos[i*2];
+				int distanceY = pos[j*2 + 1] - pos[i*2 + 1];
+
+				coordinates[i][j] = Math.sqrt((distanceX*distanceX) + (distanceY*distanceY));
+				if (coordinates[i][j] <= 0) System.out.println("0 distance");
+			}
+		}
+		return coordinates;
+	}
 }

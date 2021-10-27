@@ -36,9 +36,11 @@ public class Main {
 			SearchAlogorithms.Dijkstra(tests[i], tests[i+1], instance);
 		}
 		*/
-		SearchAlogorithms.Dijkstra(0,4,TestGraph.getInstance());
-		SearchAlogorithms.Dijkstra(1,8,Homework4.romaniaGraph());
-		SearchAlogorithms.AStar(0,4,TestGraph.getInstance());
+		SearchAlgorithms.Dijkstra(0,4,TestGraph.getInstance());
+		SearchAlgorithms.Dijkstra(1,8,Homework4.romaniaGraph());
+		SearchAlgorithms.AStar(0,4,TestGraph.getHeuristic(), TestGraph.getInstance());
+		SearchAlgorithms.AStar(1,8,Homework4.romaniaHeuristic(),Homework4.romaniaGraph());
+		SearchAlgorithms.AStar(2,10,GeffenGraph.getHeuristic(), GeffenGraph.getInstance());
         /*
         TestGraph testInstance = TestGraph.getInstance();
         tests = new int[]{

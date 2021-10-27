@@ -349,4 +349,5 @@ public abstract class AbstractSparseGraph<NodeType extends GraphNode,EdgeType ex
 		s += "}";
 		return s;
 	}
+	
 }

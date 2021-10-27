@@ -74,5 +74,8 @@ public class GeffenGraph extends SparseGraph {
 		*/
 		return instance;
 	}
+	public static double[][] getHeuristic() {
+		return new double[GeffenGraph.paths.length / 2][GeffenGraph.paths.length / 2];
+	}
 }
 

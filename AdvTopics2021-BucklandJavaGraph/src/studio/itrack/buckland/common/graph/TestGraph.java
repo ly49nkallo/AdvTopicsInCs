@@ -30,5 +30,8 @@ public class TestGraph extends SparseGraph {
         }
         return instance;
     }
+    public static double[][] getHeuristic() {
+        return new double[TestGraph.paths.length / 3][TestGraph.paths.length / 3];
+    }
 }
 
