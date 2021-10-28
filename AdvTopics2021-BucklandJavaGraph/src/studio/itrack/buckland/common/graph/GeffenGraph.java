@@ -25,28 +25,27 @@ public class GeffenGraph extends SparseGraph {
     };
 
 	static int[] paths = {
-		1,2,
-		1,3,
-		1,4,
-		2,3,
-		2,5,
-		3,4,
-		3,5,
-		3,6,
-		3,7,
-		4,6,
-		5,6,
-		5,7,
-		6,7,
-		7,8,
-		8,9,
-		8,10,
-		9,13,
-		9,14,
-		10,11,
-		11,12,
-		12,13,
-		13,14,
+		1,2, 	16,
+		1,3,	20,
+		1,4,	34,
+		2,3,	35,
+		2,5,	36,	
+		3,5,	17,
+		3,6,	40,
+		3,7,	23,
+		4,6,	15,
+		5,6,	30,
+		5,7,	12,
+		6,7,	19,
+		7,8,	0,
+		8,9,	0,
+		8,10,	8,
+		9,13,	30,
+		9,14,	16,
+		10,11,	45,
+		11,12,	36,
+		12,13,	30,
+		13,14,	45,
 	};
 
     public static GeffenGraph getInstance() {
@@ -56,8 +55,8 @@ public class GeffenGraph extends SparseGraph {
             instance.addNode(new GraphNode(instance.getNextFreeNodeIndex()));
         }
 		
-		for (int i = 0; i < paths.length; i += 2){
-			instance.addEdge(new GraphEdge(paths[i], paths[i+1]));
+		for (int i = 0; i < paths.length; i += 3){
+			instance.addEdge(new GraphEdge(paths[i], paths[i+1], (double)paths[i+2]));
 		}
 		
 		/*
@@ -75,7 +74,8 @@ public class GeffenGraph extends SparseGraph {
 		return instance;
 	}
 	public static double[][] getHeuristic() {
-		double[][] coordinates = new double[getInstance().numberActiveNodes()][getInstance().numberActiveNodes()];
+		//coordinates [i][j] stores the heuristic between node i and node j
+		double[][] coordinates = new double[getInstance().numberActiveNodes() + 1][getInstance().numberActiveNodes() + 1];
 		/*
 		"entrance",					// 1
         "dining commons",			// 2
@@ -110,14 +110,14 @@ public class GeffenGraph extends SparseGraph {
 			90, 50, 60,
 		};
 		for(int i = 0; i < pos.length/3; i++){
-			for (int j = 0; j < pos.length/3; j++){
+			for (int j = 1; j < pos.length/3; j++){
 				if (i == j) continue;
 				int distanceX = pos[j*3] - pos[i*3];
 				int distanceY = pos[j*3 + 1] - pos[i*3 + 1];
-				int distanceZ = pos[j*3 + 2] - pos[j*3 + 2];
+				int distanceZ = pos[j*3 + 2] - pos[i*3 + 2];
 
-				coordinates[i][j] = Math.sqrt((distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ));
-				if (coordinates[i][j] < 0) System.out.println("neg distance");
+				coordinates[i + 1][j + 1] = Math.sqrt((distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ));
+				if (coordinates[i + 1][j + 1] < 0) System.out.println("neg distance");
 			}
 		}
 
