@@ -75,7 +75,53 @@ public class GeffenGraph extends SparseGraph {
 		return instance;
 	}
 	public static double[][] getHeuristic() {
-		return new double[GeffenGraph.paths.length / 2][GeffenGraph.paths.length / 2];
+		double[][] coordinates = new double[getInstance().numberActiveNodes()][getInstance().numberActiveNodes()];
+		/*
+		"entrance",					// 1
+        "dining commons",			// 2
+        "living room",				// 3
+        "basketball court",			// 4
+        "makerspace",				// 5
+        "gym",						// 6
+        "elevator - level 1",		// 7
+        "elevator - level 2",		// 8
+        "elevator - level 3",		// 9
+        "meeting space level 2",	//10
+        "library",					//11
+        "science lounge",			//12
+        "common space 3rd floor",	//13
+        "music room lounge space",	//14
+		*/
+		int[] pos = {
+			//x, y, z,
+			50, 0, 0,
+			25, 25, 0,
+			50, 25, 0,
+			90, 0, 0,
+			50, 70, 0,
+			90, 50, 0,
+			80, 40, 0,
+			80, 40, 30,
+			80, 40, 60,
+			70, 50, 30,
+			20, 50, 30,
+			20, 50, 60,
+			70, 50, 60,
+			90, 50, 60,
+		};
+		for(int i = 0; i < pos.length/3; i++){
+			for (int j = 0; j < pos.length/3; j++){
+				if (i == j) continue;
+				int distanceX = pos[j*3] - pos[i*3];
+				int distanceY = pos[j*3 + 1] - pos[i*3 + 1];
+				int distanceZ = pos[j*3 + 2] - pos[j*3 + 2];
+
+				coordinates[i][j] = Math.sqrt((distanceX*distanceX) + (distanceY*distanceY) + (distanceZ*distanceZ));
+				if (coordinates[i][j] < 0) System.out.println("neg distance");
+			}
+		}
+
+		return coordinates;
 	}
 }
 
