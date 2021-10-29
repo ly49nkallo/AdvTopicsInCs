@@ -343,7 +343,7 @@ public class SearchAlgorithms {
 					current = node;
 				}
 			}
-			System.out.println("current"  + current.index());
+			System.out.println("current: "  + current.index());
 			if (current == null) System.out.println("Current null");
 			if (current == instance.getNode(to)) {foundNode = true; break;}
 			
