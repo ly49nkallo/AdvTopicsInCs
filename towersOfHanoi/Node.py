@@ -16,4 +16,8 @@ class Node:
 
     def getNeighbors(self) -> set: pass
 
+    def isTerminalNode(self) -> bool: pass
+
+    def isEqual(self, other) -> bool:
+        return other.state == self.state
     
