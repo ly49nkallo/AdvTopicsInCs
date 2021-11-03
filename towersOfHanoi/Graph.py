@@ -1,22 +1,28 @@
 import Node
 
 class Graph:
-    def __init__(self, startingNode, endingNode):
+    def __init__(self, startingNode):
         self.startingNode = startingNode
-        self.endingNode = endingNode
 
-    def DFS(self):
+    def BFS(self):
         visited = set()
-        path = []
-        stack = []
+        queue = []
         currentNode = self.startingNode
-        stack.append(currentNode)
-        while len(stack) > 0:
-            currentNode = stack.pop()
-            if currentNode.isEqual(self.endingNode):
+        queue.append(currentNode)
+        while len(queue) > 0:
+            currentNode = queue[0]
+            queue = queue[1:]
+            if currentNode not in visited:
+                # list comprehension :)
+                queue.extend([neighbor for neighbor in currentNode.getNeightbors() if neighbor not in visited])
+                visited.add(currentNode)
+            if currentNode.isTerminalNode():
                 break
-            stack.extend([neighbor for neighbor in currentNode.getNeightbors()])
-        
-
-            
+        path = []
+        node = currentNode.parentNode
+        path.append(currentNode)
+        while node != None:
+            path.append(node)
+            node = node.parentNode
+        return path
 

@@ -1,3 +1,6 @@
+import Graph
+import Node
+
 def main():
     startingNode = Node()
     endingNode = Node()
