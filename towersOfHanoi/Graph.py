@@ -1,5 +1,3 @@
-import Node
-
 class Graph:
     def __init__(self, startingNode):
         self.startingNode = startingNode
@@ -9,6 +7,7 @@ class Graph:
         queue = []
         currentNode = self.startingNode
         queue.append(currentNode)
+        terminalNodeReached = False
         while len(queue) > 0:
             currentNode = queue[0]
             queue = queue[1:]
@@ -21,7 +20,9 @@ class Graph:
                 
             if currentNode.isTerminalNode():
                 print("terminal node reached!")
+                terminalNodeReached = True
                 break
+        if not terminalNodeReached: return "NO PATH FOUND"
         path = []
         node = currentNode.parentNode
         path.append(currentNode)

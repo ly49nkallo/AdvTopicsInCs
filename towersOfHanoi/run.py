@@ -1,15 +1,11 @@
-import Graph
+from Graph import Graph
 from Node import *
 
 def main():
-    startingNode = Node()
-    print(startingNode)
-    sneighbors = startingNode.getNeighbors()
-    print(sneighbors)
-    for i in sneighbors:
-        print(i.getNeighbors())
-    graph = Graph.Graph(startingNode)
-    print(graph.BFS())
+    startingNode = Node(numOfDisks=4,numOfTowers=3) 
+    graph = Graph(startingNode)
+    for node in graph.BFS():
+        print(node)
 
 if __name__ == "__main__":
     main()

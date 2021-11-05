@@ -1,11 +1,13 @@
 import copy
 
 class Node:
-    def __init__(self, state=[[3,2,1],[0,0,0],[0,0,0]], parentNode = None, numOfTowers=3, numOfDisks=3):
+    def __init__(self, state:list = list(), parentNode = None, numOfTowers:int = 3, numOfDisks:int = 3):
         self.state = state
         self.parentNode = parentNode
         self.numOfDisks = numOfDisks
         self.numOfTowers = numOfTowers
+        if state == list():
+            self.state = self.constructStartingState()
         assert(len(self.state) == numOfTowers)
         for tower in self.state: assert(len(tower) == numOfDisks)
         # assert isinstance(self.index, int)
@@ -55,15 +57,24 @@ class Node:
             if tower[i] <= disk:
                 return False
         return False
-        
 
     def isTerminalNode(self) -> bool: 
-        return self.state == [[0, 0, 0], [0, 0, 0], [3, 2, 1]]
+        # return self.state == [[0, 0, 0, 0], [0, 0, 0, 0], [4, 3, 2, 1]]
         for tower in range(len(self.state)):
             if tower == len(self.state) - 1:
-                return self.state[-1] == reversed(list(range(1, len(self.state[tower]) + 1)))
+                return self.state[-1] == list(reversed(list(range(1, len(self.state[tower]) + 1))))
             if self.state[tower] != [0 for i in range(len(self.state[tower]))]: return False
         return True
+
+    def constructStartingState(self) -> list:
+        state = list()
+        for tower in range(self.numOfTowers):
+            if tower == 0: 
+                state.append(list(reversed(list(range(1,self.numOfDisks + 1)))))
+            else:
+                state.append([0 for i in range(self.numOfDisks)])
+        print(state)
+        return state
 
     def __eq__(self, other) -> bool:
         try:
