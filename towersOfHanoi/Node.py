@@ -13,73 +13,68 @@ class Node:
     def __repr__(self):
         return " state: " + repr(self.state)
 
-    def isValidState(self) -> bool: pass
+    def isValidState(self) -> bool: pass # trust in my own coding abilities to not need this
 
     def getNeighbors(self) -> set:
         # structure of state:
         # [[Tower1],[Tower2],[Tower3]]
-        # Tower1 = [Disk in slot 1, Disk in slot 2, Disk in slot 3]
-        possibleNeighbors=set()
-        print("selfstate", self.state)
-        for tower in range(len(self.state)):
-            print("state" , self.state[tower])
-            topDisk = self.getTopDisk(tower)
-            print("top disk:", topDisk)
-            for i in range(len(self.state)):
-                if tower == i:
-                    continue
-                if topDisk == None:
-                    continue
-                newState = self.placeDisk(i, topDisk)
-                newTower = newState[i]
-                print("new tower:", newTower)
-                if not newTower: 
-                    #print("r")
-                    continue
-                newState = copy.deepcopy(self.state)
-                newState[i] = newTower
-                newState[tower] = self.removeTopDisk(tower)
-                print("new state:", newState)
-                possibleNeighbors.add(Node(state = newState))
+        # TowerA = [Disk in slot 1, Disk in slot 2, Disk in slot 3]
+
+        possibleNeighbors = set()  # check out my custom hash function !
+        for fromTower in range(len(self.state)):
+            disk = self.getTopDisk(fromTower)
+            if disk == None: continue
+            for toTower in range(len(self.state)):
+                if fromTower == toTower: continue
+                newNode = Node(state = copy.deepcopy(self.state), parentNode = self,  # super strange multi-layer pass by reference errors
+                                numOfDisks=self.numOfDisks, numOfTowers=self.numOfTowers) 
+                newNode.removeTopDisk(fromTower)
+                if newNode.placeDisk(toTower, disk):
+                    possibleNeighbors.add(newNode)
         return possibleNeighbors
 
-    def getTopDisk(self, tower_index):
-        tower = self.state.copy()[tower_index]
-        # print (list(reversed(list(range(len(tower))))))
-        for i in reversed(list(range(self.numOfDisks))):
-            if tower[i] != 0:
-                return tower[i]
-        return None
+    def getTopDisk(self, tower_index: int) -> int:
+        try:
+            return min([disk for disk in self.state[tower_index] if disk])
+        except ValueError:
+            return None
 
-    def removeTopDisk(self,tower_index):
-        tower = self.state.copy()[tower_index]
-        tower[tower.index(self.getTopDisk(tower_index))] = 0
-        return tower
-
-    def placeDisk(self, tower_index, disk):
-        tower = self.state.copy()[tower_index]
-        print("tower: ", tower)
-        for i in reversed(list(range(self.numOfDisks))):
-            if i == 0 and tower[i] == 0:
+    def removeTopDisk(self,tower_index:int):
+        if self.getTopDisk(tower_index) == None:
+            return False
+        self.state[tower_index][self.state[tower_index].index(self.getTopDisk(tower_index))] = 0
+        return True
+    
+    def placeDisk(self,tower_index:int,disk:int) -> bool:
+        if disk == 0: return False
+        tower = self.state[tower_index]
+        for i in range(tower.__len__()):
+            if tower[i] == 0:
                 tower[i] = disk
-            if tower[i-1] != 0 and tower[i-1] < disk:
+                return True
+            if tower[i] <= disk:
                 return False
-            if tower[i-1] != 0 and tower[i] == 0:
-                tower[i] == disk
-        newState = self.state.copy()
-        newState[tower_index] = tower
-        print(newState)
-        return newState
+        return False
+        
 
-    def isTerminalNode(self) -> bool: pass
+    def isTerminalNode(self) -> bool: 
+        return self.state == [[0, 0, 0], [0, 0, 0], [3, 2, 1]]
+        for tower in range(len(self.state)):
+            if tower == len(self.state) - 1:
+                return self.state[-1] == reversed(list(range(1, len(self.state[tower]) + 1)))
+            if self.state[tower] != [0 for i in range(len(self.state[tower]))]: return False
+        return True
 
     def __eq__(self, other) -> bool:
-        return other.state == self.state
+        try:
+            return other.state == self.state
+        except AttributeError:
+            return False
 
     def __hash__(self):
         hash = 0
         n = 0
-        # even more list comprehention :)
+        # even more list comprehension :)
         flat_list = [item for sublist in self.state for item in sublist]
         for item in flat_list:
             hash += item * (self.numOfDisks ** n)

@@ -9,15 +9,18 @@ class Graph:
         queue = []
         currentNode = self.startingNode
         queue.append(currentNode)
-        visited.add(currentNode)
         while len(queue) > 0:
             currentNode = queue[0]
             queue = queue[1:]
+            #print("current, visited",currentNode, visited)
             if currentNode not in visited:
                 # list comprehension :)
                 queue.extend([neighbor for neighbor in currentNode.getNeighbors() if neighbor not in visited])
+                #print('q', queue)
                 visited.add(currentNode)
+                
             if currentNode.isTerminalNode():
+                print("terminal node reached!")
                 break
         path = []
         node = currentNode.parentNode
@@ -25,5 +28,5 @@ class Graph:
         while node != None:
             path.append(node)
             node = node.parentNode
-        return path
+        return list(reversed(path))
 
