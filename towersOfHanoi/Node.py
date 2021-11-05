@@ -73,7 +73,6 @@ class Node:
                 state.append(list(reversed(list(range(1,self.numOfDisks + 1)))))
             else:
                 state.append([0 for i in range(self.numOfDisks)])
-        print(state)
         return state
 
     def __eq__(self, other) -> bool:
