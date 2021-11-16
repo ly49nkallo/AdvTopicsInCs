@@ -33,5 +33,5 @@ if __name__ == '__main__':
     plt.show(block=True)
     '''
     g = Game.Game(im, cellsX, cellsY)
-    repr(g)
+    g.BFS()
     
