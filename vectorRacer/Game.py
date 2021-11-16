@@ -12,7 +12,7 @@ class Game:
         self.trackY = trackY
         self.start = Coord(list(self.track.ravel()).index(START), self.trackX)
         print('start:', self.start)
-        self.cart = Cart(0, self.start, self.track, self.trackX, self.trackY)
+        self.cart = Cart(0, (self.start[0], self.start[1] + 2), self.track, self.trackX, self.trackY)
         print(self.cart)
         print(self.cart.getAvaliableMoves())
 

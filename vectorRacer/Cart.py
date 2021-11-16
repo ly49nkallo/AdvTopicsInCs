@@ -23,13 +23,15 @@ class Cart:
                 possibleMoves.add((self.velocity[0] + i - 1, self.velocity[1] + j - 1))
         # make sure that the moves do not crash the cart
         for move in possibleMoves.copy():
-            if self.track[self.position[1] + move[1]][self.position[0] + move[0]] == WALL:
-                possibleMoves.remove(move)
-            #make sure new position is strictly within the edges of the game board
             if self.position[1] + move[1] < 0 or self.position[0] + move[0] < 0:
                 possibleMoves.remove(move)
+                continue
             if self.position[1] + move[1] >= self.trackY or self.position[0] + move[0] >= self.trackX:
                 possibleMoves.remove(move)
+                continue
+            if self.track[self.position[1] + move[1]][self.position[0] + move[0]] == WALL:
+                possibleMoves.remove(move)
+            
         return possibleMoves
 
     
