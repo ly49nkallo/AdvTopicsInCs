@@ -25,6 +25,11 @@ class Cart:
         for move in possibleMoves.copy():
             if self.track[self.position[1] + move[1]][self.position[0] + move[0]] == WALL:
                 possibleMoves.remove(move)
+            #make sure new position is strictly within the edges of the game board
+            if self.position[1] + move[1] < 0 or self.position[0] + move[0] < 0:
+                possibleMoves.remove(move)
+            if self.position[1] + move[1] >= self.trackY or self.position[0] + move[0] >= self.trackX:
+                possibleMoves.remove(move)
         return possibleMoves
 
     
