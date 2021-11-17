@@ -33,5 +33,9 @@ if __name__ == '__main__':
     plt.show(block=True)
     '''
     g = Game.Game(im, cellsX, cellsY)
-    g.BFS()
+    
+    print(g.checkPointPositions)
+    repr(g)
+    time.sleep(5)
+    g.AStar()
     

@@ -5,7 +5,7 @@ import functools
 
 
 class State():
-    def __init__(self, track:np.ndarray, trackX:int, trackY:int, positionVec:tuple, velocity:tuple, checkpointClearance:int, cost:float = 0, parent = None):
+    def __init__(self, track:np.ndarray, trackX:int, trackY:int, positionVec:tuple, velocity:tuple, checkpointClearance:int, cost:float = 0, parent = None, fscore:float=np.infty, gscore:float=np.infty):
         self.track = track
         self.trackX = trackX
         self.trackY = trackY
@@ -14,13 +14,18 @@ class State():
         self.checkpointClearance = checkpointClearance
         self.cost = cost
         self.parent = parent
+        self.fscore = fscore
+        self.gscore = gscore
         self.checkCheckpointElevation()
 
     def __hash__(self) -> int:
-        return int(hash(self.position) // 2 + hash(self.velocity) // 2)
+        return (self.position[0] + self.position[1]) // 2 + (self.velocity[0] + self.velocity[1]) // 2
 
     def __repr__(self) -> str:
-        return "\nPos: " + repr(self.position) + " | Vel: " + repr(self.velocity) + " | Checkpoint: " + repr(self.checkpointClearance) + " | Parent: " + repr(self.parent)
+        if self.parent == None:
+            return "Pos: " + repr(self.position) + " | Vel: " + repr(self.velocity) + " | Checkpoint: " + repr(self.checkpointClearance)
+        else:
+            return "Pos: " + repr(self.position) + " | Vel: " + repr(self.velocity) + " | Checkpoint: " + repr(self.checkpointClearance) + " | Parent: " + repr(self.parent.position) + repr(self.parent.velocity)
 
     def getNeighboringStates(self) -> set():
         currentSurface = self.track[self.position[1]][self.position[0]]
@@ -47,21 +52,21 @@ class State():
                 continue
             if self.track[newPositionY][newPositionX] == WALL:
                 possibleMoves.remove(move)
-        return set([State(self.track, self.trackX, self.trackY, (self.position[0] + move[0], self.position[1] + move[1]), move, self.checkpointClearance, cost =0, parent=self) for move in possibleMoves])
+        return set([State(self.track, self.trackX, self.trackY, (self.position[0] + move[0], self.position[1] + move[1]), move, self.checkpointClearance, cost=0, parent=self) for move in possibleMoves])
 
-    def checkCheckpointElevation(self) -> int:
-        currentSurface = self.track[self.position[1]][self.position[0]]
+    def checkCheckpointElevation(self):
+        currentSurface = self.track[self.position[1]-1:self.position[1]+1][self.position[0]-1:self.position[0]+1]
         if currentSurface == WALL:
             raise NameError("State in wall")
         if currentSurface == ROAD:
             return False
-        elif currentSurface == CHECKPOINT1 and self.checkpointClearance == 0:
+        elif CHECKPOINT1 in currentSurface and self.checkpointClearance == 0:
             self.checkpointClearance = 1
-        elif currentSurface == CHECKPOINT2 and self.checkpointClearance == 1:
+        elif CHECKPOINT2 in currentSurface and self.checkpointClearance == 1:
             self.checkpointClearance = 2
-        elif currentSurface == CHECKPOINT3 and self.checkpointClearance == 2:
+        elif CHECKPOINT3 in currentSurface and self.checkpointClearance == 2:
             self.checkpointClearance = 3
-        elif currentSurface == CHECKPOINT4 and self.checkpointClearance == 3:
+        elif CHECKPOINT4 in currentSurface and self.checkpointClearance == 3:
             self.checkpointClearance = 4
 
     def isTerminal(self, checkpoint:int) -> bool:
@@ -71,6 +76,8 @@ class State():
         if currentSurface == FINISH:
             return True
         return False
+
+    
         
 
 
