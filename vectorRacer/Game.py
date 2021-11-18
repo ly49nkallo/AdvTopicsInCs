@@ -21,6 +21,9 @@ class Game:
         print(self.maxCheckpoint)
         for i in range(self.maxCheckpoint):
             self.checkPointPositions.append(Coord(list(self.track.ravel()).index(i + 6), self.trackX))
+        self.checkPointPositions.append(Coord(list(self.track.ravel()).index(FINISH),self.trackX))
+        state = State(self.track, self.trackX, self.trackY, (1,14), (-3,2), 2)
+        print(state.getNeighboringStates())
     # fun overrides
     def __repr__(self) -> str:
         fig = plt.figure(figsize=(7,5))
@@ -76,6 +79,15 @@ class Game:
     
     # probably the most optimal solution
     def AStar(self) -> list:
+        def trackback(endingState):
+            path = []
+            node = endingState.parent
+            path.append(node)
+            while node != None:
+                path.append(node)
+                node = node.parent
+            return list(reversed(path))
+        nodesInvestigated = 0
         def h(goal:tuple, position:tuple):
             return abs(goal[0]-position[0])/3 + abs(goal[1]-position[1])/3
         def hDistance(goal:tuple, position:tuple):
@@ -91,19 +103,23 @@ class Game:
                 if (x.fscore>y.fscore): return y
                 return x
             current = functools.reduce(a, openSet)
+            nodesInvestigated += 1
             print(current)
             #print(openSet)
             if current.isTerminal(self.maxCheckpoint):
-                return list()
+                print("terminal node found!")
+                print("Nodes investigated:",nodesInvestigated)
+                return trackback(current)
             openSet.remove(current)
             for neighbor in current.getNeighboringStates():
                 tentative_gscore = current.gscore + 1
                 if tentative_gscore < neighbor.gscore:
                     neighbor.gscore = tentative_gscore
                     goal = self.checkPointPositions[neighbor.checkpointClearance]
-                    neighbor.fscore = neighbor.gscore + hDistance(goal, neighbor.position)
                     neighbor.checkCheckpointElevation()
+                    neighbor.fscore = neighbor.gscore + hDistance(goal, neighbor.position) - neighbor.checkpointClearance * 100
                     openSet.add(neighbor)
+        print("Nodes investigated:",nodesInvestigated)
         raise NameError("Didnt find shit")
 
 

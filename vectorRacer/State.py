@@ -16,7 +16,7 @@ class State():
         self.parent = parent
         self.fscore = fscore
         self.gscore = gscore
-        self.checkCheckpointElevation()
+        
 
     def __hash__(self) -> int:
         return (self.position[0] + self.position[1]) // 2 + (self.velocity[0] + self.velocity[1]) // 2
@@ -55,25 +55,21 @@ class State():
         return set([State(self.track, self.trackX, self.trackY, (self.position[0] + move[0], self.position[1] + move[1]), move, self.checkpointClearance, cost=0, parent=self) for move in possibleMoves])
 
     def checkCheckpointElevation(self):
-        currentSurface = self.track[self.position[1]-1:self.position[1]+1][self.position[0]-1:self.position[0]+1]
-        if currentSurface == WALL:
-            raise NameError("State in wall")
-        if currentSurface == ROAD:
-            return False
-        elif CHECKPOINT1 in currentSurface and self.checkpointClearance == 0:
-            self.checkpointClearance = 1
-        elif CHECKPOINT2 in currentSurface and self.checkpointClearance == 1:
-            self.checkpointClearance = 2
-        elif CHECKPOINT3 in currentSurface and self.checkpointClearance == 2:
-            self.checkpointClearance = 3
-        elif CHECKPOINT4 in currentSurface and self.checkpointClearance == 3:
-            self.checkpointClearance = 4
+        currentSurface = [list(i) for i in self.track[self.position[1]-1:self.position[1]+2]]
+        currentSurface = [i[self.position[0]-1:self.position[0]+2] for i in currentSurface.copy()]
+        currentSurface = [j for sub in currentSurface.copy() for j in sub]
+        if self.checkpointClearance + 6 in currentSurface:
+            self.checkpointClearance += 1
+            return True
+        return False
 
     def isTerminal(self, checkpoint:int) -> bool:
         if self.checkpointClearance < checkpoint:
             return False
-        currentSurface = self.track[self.position[1]][self.position[0]]
-        if currentSurface == FINISH:
+        currentSurface = [list(i) for i in self.track[self.position[1]-1:self.position[1]+2]]
+        currentSurface = [i[self.position[0]-1:self.position[0]+2] for i in currentSurface.copy()]
+        currentSurface = [j for sub in currentSurface.copy() for j in sub]
+        if FINISH in currentSurface:
             return True
         return False
 
