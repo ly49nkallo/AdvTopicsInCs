@@ -22,8 +22,6 @@ class Game:
         for i in range(self.maxCheckpoint):
             self.checkPointPositions.append(Coord(list(self.track.ravel()).index(i + 6), self.trackX))
         self.checkPointPositions.append(Coord(list(self.track.ravel()).index(FINISH),self.trackX))
-        state = State(self.track, self.trackX, self.trackY, (1,14), (-3,2), 2)
-        print(state.getNeighboringStates())
     # fun overrides
     def __repr__(self) -> str:
         fig = plt.figure(figsize=(7,5))
@@ -122,7 +120,4 @@ class Game:
         print("Nodes investigated:",nodesInvestigated)
         raise NameError("Didnt find shit")
 
-
-
-    
     

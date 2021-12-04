@@ -19,7 +19,7 @@ class State():
         
 
     def __hash__(self) -> int:
-        return (self.position[0] + self.position[1]) // 2 + (self.velocity[0] + self.velocity[1]) // 2
+        return (self.position[0] + self.position[1]*100) // 2 + (self.velocity[0] + self.velocity[1]*100) // 2
 
     def __repr__(self) -> str:
         if self.parent == None:
@@ -72,6 +72,24 @@ class State():
         if FINISH in currentSurface:
             return True
         return False
+
+    def getTrajectory(self, state2) -> set:
+        assert isinstance(self, State) and isinstance(state2, State)
+        if self == state2: return set()
+        trajectory = set()
+        # m = dy/dx
+        try:
+            slope = (self.position[1]-state2.position[1])/(self.position[0]-state2.position[0])
+        except ZeroDivisionError:
+            slope = 1
+        yint = self.position[1] - slope*self.position[0]
+        if self.position[0] < state2.position[0]:
+            for j in range(self.position[0]+1,state2.position[0],1):
+                trajectory.add((j, round(slope*j + yint)))
+        else:
+             for j in range(self.position[0]+1,state2.position[0],-1):
+                trajectory.add((j, round(slope*j + yint)))
+        return trajectory
 
     
         
