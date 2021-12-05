@@ -42,7 +42,7 @@ if __name__ == '__main__':
     for i in range(len(foundPath)-1):
         node = foundPath[i]
         nextNode = foundPath[i+1]
-        for n in node.getTrajectory(nextNode):
+        for n in node.getTrajectory(nextNode.position):
             im[n[1]][n[0]] = 9
     fig = plt.figure(figsize=(5,5))
     ax = fig.add_subplot(111)
