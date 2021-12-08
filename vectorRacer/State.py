@@ -33,7 +33,10 @@ class State():
         if currentSurface == WALL:
             raise NameError("Cart in wall")
         elif currentSurface == GRAVEL:
-            pass
+            for i in range(2):
+                for j in range(2):
+                    if i and j: continue # if both i and j = 1
+                    possibleMoves.add((self.velocity[0] + i - 1, self.velocity[1] + j - 1))
         elif currentSurface == CURB:
             possibleMoves.append(self.velocity.copy())
         else:
@@ -97,7 +100,6 @@ class State():
              for j in range(self.position[0],state2[0],-1):
                  
                 trajectory.add((j, round(slope*j + yint)))
-        print(trajectory)
         return trajectory
 
     
