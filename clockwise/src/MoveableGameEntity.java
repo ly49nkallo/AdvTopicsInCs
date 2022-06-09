@@ -42,8 +42,8 @@ public class MoveableGameEntity {
 	
 	public void applyForce(PVector f) {
 		if(acc.mag() < 1.0f && vel.mag() < 5) {
-			System.out.println(vel.mag());
-			System.out.println(acc);
+			// System.out.println(vel.mag());
+			// System.out.println(acc);
 			acc = f.copy();
 			acc.mult((float)(1.0/mass));
 		}
