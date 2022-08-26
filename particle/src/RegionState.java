@@ -11,12 +11,14 @@ public abstract class RegionState {
 	
 	//
 	public void enter(Particle r) { 
-		System.out.printf("entering state %s\n",name,r);
+		if (DemoApp.verbose)
+			System.out.printf("entering state %s\n",name,r);
 	}
 	
 	//
 	public void exit(Particle r) { 
-		System.out.printf("exiting state %s\n",name,r);
+		if (DemoApp.verbose)
+			System.out.printf("exiting state %s\n",name,r);
 	}	
 	
 	//	
