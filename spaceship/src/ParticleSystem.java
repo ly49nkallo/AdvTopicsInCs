@@ -18,7 +18,7 @@ public class ParticleSystem {
         for (Particle p : this.particles) {
             p.pos = new PVector(rand.nextInt(app.WIDTH - (2 * app.BUFFER)) + app.BUFFER,
                                 rand.nextInt(app.HEIGHT - (2 * app.BUFFER)) + app.BUFFER);
-            // System.out.println(String.format("%d, %d", (int)p.pos.x, (int)p.pos.y));
+            PVector.mult(PVector.random2D(), 2, p.vel);
         }
     }
     public ParticleSystem(App app, Particle[] particles){
@@ -33,6 +33,7 @@ public class ParticleSystem {
     }
     public void draw() {
         for (Particle p : this.particles) {
+            System.out.println(String.format("%d, %d", (int)p.pos.x, (int)p.pos.y));
             p.draw();
         }
     }
@@ -41,12 +42,16 @@ public class ParticleSystem {
         for (int i = 0; i < this.particles.length; i++) {
             for (int j = 0; j < this.particles.length; j++){
                 if (i == j) continue;
-                PVector direction = this.particles[i].pos.sub(this.particles[j].pos);
-                direction.normalize(direction);
-                //scale by magnatude
-                float distance = this.particles[i].pos.sub(this.particles[j].pos).mag();
-                particles[i].applyForce(direction.mult((float)(this.ctx.G * this.particles[i].mass * this.particles[j].mass / 
-                                        (distance * distance) / 2)));
+                PVector difference = new PVector();
+                PVector.sub(this.particles[i].pos, this.particles[j].pos, difference);
+                PVector direction = new PVector();
+                difference.normalize(direction);
+                float distance = difference.mag();
+                PVector force = new PVector();
+                PVector.mult(direction, -(float)(this.ctx.G * this.particles[i].mass * this.particles[j].mass / 
+                                        (distance * distance) / 2), force);
+                System.out.println(String.format("Force %f %f", force.x, force.y));
+                particles[i].applyForce(force);
             }
         }
         for (Particle p : this.particles) {

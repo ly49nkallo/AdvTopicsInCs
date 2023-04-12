@@ -23,7 +23,7 @@ public class Particle {
         this.heading = heading;
     }
     public Particle(App app){
-        this(app, 1d, 0d, new PVector(), new PVector(), new PVector());
+        this(app, 50d, 0d, new PVector(), new PVector(), new PVector());
     }
     public void setup() {
         System.out.println("Particle setup");
